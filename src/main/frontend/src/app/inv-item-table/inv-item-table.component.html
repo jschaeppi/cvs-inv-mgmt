@@ -1,0 +1,22 @@
+<div *ngIf="items.length > 0; else notFound">
+  <clr-datagrid>
+    <clr-dg-column>User ID</clr-dg-column>
+    <clr-dg-column [clrDgField]="'itemsName'">Item</clr-dg-column>
+    <clr-dg-column [clrDgField]="'itemDescription'">Description</clr-dg-column>
+    <clr-dg-column [clrDgField]="'itemSKU'">SKU</clr-dg-column>
+    <clr-dg-column [clrDgField]="'price'">Price</clr-dg-column>
+
+    <clr-dg-row *clrDgItems="let item of items">
+      <clr-dg-cell>{{item.id}}</clr-dg-cell>
+      <clr-dg-cell>{{item.name}}</clr-dg-cell>
+      <clr-dg-cell>{{item.description ? item.description : "No Data"}}</clr-dg-cell>
+      <clr-dg-cell>{{item.sku}}</clr-dg-cell>
+      <clr-dg-cell>{{item.price ? item.price : "No Price"}}</clr-dg-cell>
+    </clr-dg-row>
+
+    <clr-dg-footer>{{items.length ? items.length : 0}} Items</clr-dg-footer>
+  </clr-datagrid>
+</div>
+<ng-template #notFound>
+  <p class="itemRetrieval">No items found</p>
+</ng-template>

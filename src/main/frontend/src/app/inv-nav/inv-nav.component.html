@@ -1,0 +1,33 @@
+<header class="header-2">
+  <div class="branding">
+    BRANDING
+  </div>
+  <div class="header-nav">
+    <a routerLink="/dashboard" routerLinkActive="active" class="active nav-link nav-text">Dashboard</a>
+    <a href="javascript://" class="nav-link nav-text">Interactive Analytics</a>
+  </div>
+  <div class="header-actions">
+    <a href="javascript://" class="nav-link nav-icon" aria-label="settings">
+      <clr-icon shape="cog"></clr-icon>
+    </a>
+  </div>
+</header>
+<div class="main-container">
+  <div class="content-container">
+    <clr-vertical-nav [clrVerticalNavCollapsible]="true">
+      <clr-vertical-nav-group *ngFor="let nav of navLinks">
+        {{nav.name}}
+        <clr-vertical-nav-group-children *ngFor="let itemCat of nav.catItems">
+          <a clrVerticalNavLink
+             [routerLink]="['/cat', itemCat.catName]"
+             routerLinkActive="active">
+            {{itemCat.catName}}
+          </a>
+        </clr-vertical-nav-group-children>
+      </clr-vertical-nav-group>
+    </clr-vertical-nav>
+    <div class="content-area">
+      <router-outlet></router-outlet>
+    </div>
+  </div>
+</div>
