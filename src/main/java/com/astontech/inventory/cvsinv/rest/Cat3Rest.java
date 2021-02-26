@@ -22,12 +22,12 @@ public class Cat3Rest {
         return cat3Service.listAllCat3();
     }
 
-/*    @GetMapping("/{id}")
+    @GetMapping("/{id}")
     public Cat3 getCat3(@PathVariable int id) {
         return cat3Service.findCat3(id);
-    }*/
+    }
 
-    @GetMapping("/{name}")
+    @GetMapping("/topCat/{name}")
     public List<Cat3> getCat3ByName(@PathVariable String name) {
         return cat3Service.getNavLinks(name);
     }

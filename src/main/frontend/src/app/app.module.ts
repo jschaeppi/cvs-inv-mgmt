@@ -12,13 +12,16 @@ import { ClrNavigationModule } from "@clr/angular";
 import { InvItemTableComponent } from './inv-item-table/inv-item-table.component';
 import { HttpClientModule} from "@angular/common/http";
 import { DashboardComponent } from './dashboard/dashboard.component';
+import { InvItemEditComponent } from './inv-item-edit/inv-item-edit.component';
+import { ReactiveFormsModule, FormsModule} from "@angular/forms";
 
 @NgModule({
   declarations: [
     AppComponent,
     InvNavComponent,
     InvItemTableComponent,
-    DashboardComponent
+    DashboardComponent,
+    InvItemEditComponent
   ],
   imports: [
     BrowserModule,
@@ -27,7 +30,9 @@ import { DashboardComponent } from './dashboard/dashboard.component';
     BrowserAnimationsModule,
     ClrLayoutModule,
     ClrNavigationModule,
-    HttpClientModule
+    HttpClientModule,
+    ReactiveFormsModule,
+    FormsModule,
   ],
   providers: [],
   bootstrap: [AppComponent]

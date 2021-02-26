@@ -14,7 +14,7 @@ export class InvItemTableComponent implements OnInit {
   items: Items[] = [];
   itemCatName: string | null = '';
 
-  constructor(private http: HttpClient, private catName: ActivatedRoute, private route: Router) {
+  constructor(private http: HttpClient, private routeParam: ActivatedRoute, private route: Router) {
     this.route.events.subscribe(event => {
       this.items = [];
       this.routeChange(event);
@@ -35,7 +35,8 @@ export class InvItemTableComponent implements OnInit {
 
   routeChange(event:Event) {
     if (event instanceof NavigationEnd) {
-      this.itemCatName = this.catName.snapshot.paramMap.get("catName");
+      this.itemCatName = this.routeParam.snapshot.paramMap.get("catName");
+      console.log(this.itemCatName);
       if (this.itemCatName == null) {
         this.getItems()
           .subscribe(itemList => {

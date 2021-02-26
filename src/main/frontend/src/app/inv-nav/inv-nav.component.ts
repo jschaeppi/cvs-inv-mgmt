@@ -33,9 +33,7 @@ export class InvNavComponent implements OnInit {
       .subscribe(topCat => {
         console.log('I\'m in the loop');
         this.cat1 = topCat;
-        console.log(this.cat1);
         this.catSorter(this.cat1);
-        console.log(this.cat1);
         topCat.forEach(cat => {
           this.buildNav(cat);
         })
@@ -44,8 +42,7 @@ export class InvNavComponent implements OnInit {
 
    buildNav(cat1: Cat1) {
     let nav: object = {};
-    console.log(cat1);
-        this.http.get<Cat3[]>('/api/cat3/' + cat1.name)
+        this.http.get<Cat3[]>('/api/cat3/topCat/' + cat1.name)
           .subscribe(itemCat => {
             this.cat3 = itemCat;
             nav = {

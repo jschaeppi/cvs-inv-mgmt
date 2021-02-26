@@ -8,7 +8,7 @@
 
     <clr-dg-row *clrDgItems="let item of items">
       <clr-dg-cell>{{item.id}}</clr-dg-cell>
-      <clr-dg-cell>{{item.name}}</clr-dg-cell>
+      <clr-dg-cell><a [routerLink]="['/inv/item/edit', item.id]" routerLinkActive="active">{{item.name}}</a></clr-dg-cell>
       <clr-dg-cell>{{item.description ? item.description : "No Data"}}</clr-dg-cell>
       <clr-dg-cell>{{item.sku}}</clr-dg-cell>
       <clr-dg-cell>{{item.price ? item.price : "No Price"}}</clr-dg-cell>

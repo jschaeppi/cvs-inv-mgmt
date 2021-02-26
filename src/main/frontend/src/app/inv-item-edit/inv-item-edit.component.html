@@ -1,0 +1,42 @@
+<form clrForm clrLayout="horizontal" (ngSubmit)="submit()" #f='ngForm'>
+    <clr-input-container>
+      <label for="itemName" class="clr-control-label">Item Name:</label>
+      <input clrInput type="text" id="itemName" name="name" [(ngModel)]="items.name" placeholder="ex. Jif Peanut Butter" required />
+    </clr-input-container>
+  <clr-select-container>
+    <label for="itemCategory" class="clr-control-label">Item Level Category:</label>
+    <select clrSelect
+            class="clr-form-control"
+            id="itemCategory"
+            name="cat3_id"
+            [(ngModel)]="items.cat3_id"
+            clrLayout="vertical"
+            responsive="true"
+            validate="true"
+            (change)="updateModel()"
+            required >
+      <option>Select Category</option>
+      <option name="id" value="{{item.id}}" *ngFor="let item of itemLevel">{{item.catName}}</option>
+    </select>
+  </clr-select-container>
+    <clr-textarea-container>
+      <label for="description" class="clr-control-label">Item Description</label>
+      <textarea clrTextarea id="description" name="description"[(ngModel)]="items.description" placeholder="Item Description" required ></textarea>
+    </clr-textarea-container>
+    <clr-input-container>
+      <label for="sku" class="clr-control-label">SKU:</label>
+      <input clrInput type="text" id="sku" name="sku" [(ngModel)]="items.sku" placeholder="SKU" required />
+      <clr-control-error>Error</clr-control-error>
+      <clr-control-success>Success</clr-control-success>
+    </clr-input-container>
+    <clr-input-container>
+      <label for="price" class="clr-control-label">Item Price:</label>
+      <input clrInput type="number" id="price" name="price" [(ngModel)]="items.price" placeholder="$0.00" required />
+    </clr-input-container>
+    <clr-control-container>
+      <button class="btn btn-primary">Submit</button>
+      <button class="btn btn-secondary" (click)="resetForm()">Cancel</button>
+    </clr-control-container>
+</form>
+<p>{{f.value | json}}</p>
+{{cat1Name | json}}
