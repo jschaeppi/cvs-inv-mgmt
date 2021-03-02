@@ -14,6 +14,14 @@ import { HttpClientModule} from "@angular/common/http";
 import { DashboardComponent } from './dashboard/dashboard.component';
 import { InvItemEditComponent } from './inv-item-edit/inv-item-edit.component';
 import { ReactiveFormsModule, FormsModule} from "@angular/forms";
+import { InvItemAddComponent } from './inv-item-add/inv-item-add.component';
+import { VendorAddComponent } from './vendor/vendor-add/vendor-add.component';
+import { VendorEditComponent } from './vendor/vendor-edit/vendor-edit.component';
+import { VendorDetailsComponent } from './vendor/vendor-details/vendor-details.component';
+import { LocationAddComponent } from './location/location-add/location-add.component';
+import { LocationEditComponent } from './location/location-edit/location-edit.component';
+import { LocationDetailsComponent } from './location/location-details/location-details.component';
+import { InvItemDetailsComponent } from './inv-item-details/inv-item-details.component';
 
 @NgModule({
   declarations: [
@@ -21,7 +29,15 @@ import { ReactiveFormsModule, FormsModule} from "@angular/forms";
     InvNavComponent,
     InvItemTableComponent,
     DashboardComponent,
-    InvItemEditComponent
+    InvItemEditComponent,
+    InvItemAddComponent,
+    VendorAddComponent,
+    VendorEditComponent,
+    VendorDetailsComponent,
+    LocationAddComponent,
+    LocationEditComponent,
+    LocationDetailsComponent,
+    InvItemDetailsComponent
   ],
   imports: [
     BrowserModule,

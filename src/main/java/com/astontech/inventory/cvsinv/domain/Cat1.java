@@ -4,8 +4,6 @@ package com.astontech.inventory.cvsinv.domain;
 //CREATED ON: 2/6/21
 //BY: joe
 
-import com.fasterxml.jackson.annotation.*;
-
 import javax.persistence.*;
 import java.util.List;
 
@@ -21,7 +19,7 @@ public class Cat1 {
     @Version
     private Integer version;
 
-    private String name;
+    private String catName;
 
     @OneToMany(cascade = CascadeType.ALL)
     @Column(name = "cat1")
@@ -33,8 +31,8 @@ public class Cat1 {
     public Cat1() {
     }
 
-    public Cat1(String name) {
-        this.name = name;
+    public Cat1(String catName) {
+        this.catName = catName;
     }
 
     //endregion
@@ -56,12 +54,12 @@ public class Cat1 {
         this.version = version;
     }
 
-    public String getName() {
-        return name;
+    public String getCatName() {
+        return catName;
     }
 
-    public void setName(String name) {
-        this.name = name;
+    public void setCatName(String name) {
+        this.catName = name;
     }
 
     public List<Cat2> getCat2List() {

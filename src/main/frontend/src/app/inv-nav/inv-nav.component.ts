@@ -1,12 +1,10 @@
-import {Component, OnChanges, OnInit, SimpleChanges} from '@angular/core';
+import {Component, OnInit} from '@angular/core';
 import {Cat3} from "../Types/cat3";
-import {Observable} from "rxjs";
-import {HttpClient} from "@angular/common/http";
-import {Cat2} from "../Types/cat2";
+import {CommonFunctions} from '../common/commonFunctions'
 import {Cat1} from "../Types/cat1";
-import {ActivatedRoute} from "@angular/router";
-import {Items} from "../Types/items";
-import {Cats} from "../Types/cats";
+import {Observable} from "rxjs";
+import {ItemLevelCatService} from "../services/item-levelCat-service/item-level-cat.service";
+import {TopLevelCatService} from "../services/top-levelCat-service/top-level-cat.service";
 
 @Component({
   selector: 'app-inv-nav',
@@ -16,55 +14,38 @@ import {Cats} from "../Types/cats";
 export class InvNavComponent implements OnInit {
 
   title:string = "Inventory Management";
-  cat1: Cat1[] = [];
-  cat3: Cat3[] = [];
-  navLinks: any = [];
-  catArray: object = [];
-  constructor(private http: HttpClient) { }
+  navLinks: any = [{
+    id: 0,
+    version: 0,
+    catName: '',
+    catItems: []
+  }];
+  itemCat: any = [];
+  navLoading: boolean = false;
+  comFunc = new CommonFunctions();
+  constructor(private itemCatService: ItemLevelCatService, private topCatService: TopLevelCatService) { }
 
 
   ngOnInit(): void {
-
-    this.getTopNavCat();
-  }
-
-  getTopNavCat(){
-    this.http.get<Cat1[]>('/api/cat1/')
-      .subscribe(topCat => {
-        console.log('I\'m in the loop');
-        this.cat1 = topCat;
-        this.catSorter(this.cat1);
-        topCat.forEach(cat => {
-          this.buildNav(cat);
-        })
+    this.getTopNavCat()
+      .subscribe(async topCat => {
+        await this.comFunc.catSorter(topCat);
+        this.navLinks = topCat;
       })
   }
 
-   buildNav(cat1: Cat1) {
-    let nav: object = {};
-        this.http.get<Cat3[]>('/api/cat3/topCat/' + cat1.name)
-          .subscribe(itemCat => {
-            this.cat3 = itemCat;
-            nav = {
-              id: cat1.id,
-              version: cat1.version,
-              name: cat1.name,
-              catItems: this.cat3
-            }
-              this.navLinks.push(nav);
-          })
+  getItemLevelCat(cat: Cat1, i: number) : Observable<Cat3[]> {
+    this.navLoading = true;
+    this.itemCatService.getItemLevelCat(cat.catName)
+      .subscribe(itemCat => {
+        this.navLinks[i].catItems = itemCat;
+        this.itemCat = this.comFunc.catSorter(this.navLinks[i].catItems);
+      })
+    this.navLoading = false;
+    return this.itemCat
   }
-  catSorter(cat1: Cat1[]){
-    this.cat1 = cat1.sort((a, b) => {
-      if (a.name < b.name) {
-        return -1;
-      } else if (a.name > b.name) {
-        return 1;
-      } else {
-        return 0;
-      }
-    });
+  getTopNavCat() : Observable<Cat1[]> {
+    return this.topCatService.getTopLevelCats();
 
   }
-
 }

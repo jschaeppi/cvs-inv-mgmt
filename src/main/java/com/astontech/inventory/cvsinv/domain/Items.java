@@ -29,7 +29,7 @@ public class Items {
 
     //@Column(name = "Item Description")
     @Size(min = 1, max = 800)
-    //@JsonIgnore
+    @Lob
     private String description;
 
     private String sku;
