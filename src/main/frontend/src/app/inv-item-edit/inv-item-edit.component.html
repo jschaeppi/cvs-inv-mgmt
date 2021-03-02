@@ -1,42 +1,42 @@
-<form clrForm clrLayout="horizontal" (ngSubmit)="submit()" #f='ngForm'>
+<form clrForm clrLayout="horizontal" [formGroup]="itemEditForm">
     <clr-input-container>
       <label for="itemName" class="clr-control-label">Item Name:</label>
-      <input clrInput type="text" id="itemName" name="name" [(ngModel)]="items.name" placeholder="ex. Jif Peanut Butter" required />
+      <input clrInput type="text" id="itemName" formControlName="name" placeholder="ex. Jif Peanut Butter" required />
+      <clr-control-error minlength="1" >Please enter an item name</clr-control-error>
     </clr-input-container>
   <clr-select-container>
     <label for="itemCategory" class="clr-control-label">Item Level Category:</label>
     <select clrSelect
             class="clr-form-control"
             id="itemCategory"
-            name="cat3_id"
-            [(ngModel)]="items.cat3_id"
+            formControlName="cat3_id"
             clrLayout="vertical"
             responsive="true"
             validate="true"
             (change)="updateModel()"
             required >
-      <option>Select Category</option>
       <option name="id" value="{{item.id}}" *ngFor="let item of itemLevel">{{item.catName}}</option>
+      <clr-control-error ></clr-control-error>
     </select>
   </clr-select-container>
     <clr-textarea-container>
       <label for="description" class="clr-control-label">Item Description</label>
-      <textarea clrTextarea id="description" name="description"[(ngModel)]="items.description" placeholder="Item Description" required ></textarea>
+      <textarea clrTextarea id="description" formControlName="description" placeholder="Item Description" required ></textarea>
+      <clr-control-error minlength="1" >Please enter a description</clr-control-error>
     </clr-textarea-container>
     <clr-input-container>
       <label for="sku" class="clr-control-label">SKU:</label>
-      <input clrInput type="text" id="sku" name="sku" [(ngModel)]="items.sku" placeholder="SKU" required />
-      <clr-control-error>Error</clr-control-error>
+      <input clrInput type="text" id="sku" formControlName="sku" placeholder="SKU" required />
+      <clr-control-error>Please enter a sku</clr-control-error>
       <clr-control-success>Success</clr-control-success>
     </clr-input-container>
     <clr-input-container>
       <label for="price" class="clr-control-label">Item Price:</label>
-      <input clrInput type="number" id="price" name="price" [(ngModel)]="items.price" placeholder="$0.00" required />
+      <input clrInput type="number" id="price" formControlName="price" placeholder="$0.00" required />
+      <clr-control-error minlength="1" >Please enter a price</clr-control-error>
     </clr-input-container>
     <clr-control-container>
-      <button class="btn btn-primary">Submit</button>
+      <button class="btn btn-primary" (click)="submit()">Submit</button>
       <button class="btn btn-secondary" (click)="resetForm()">Cancel</button>
     </clr-control-container>
 </form>
-<p>{{f.value | json}}</p>
-{{cat1Name | json}}

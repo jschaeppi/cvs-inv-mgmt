@@ -1,6 +1,7 @@
 package com.astontech.inventory.cvsinv.rest;
 
 import com.astontech.inventory.cvsinv.domain.Cat1;
+import com.astontech.inventory.cvsinv.domain.Cat3;
 import com.astontech.inventory.cvsinv.domain.Items;
 import com.astontech.inventory.cvsinv.services.Cat1Service;
 import com.astontech.inventory.cvsinv.services.Cat2Service;
@@ -18,14 +19,10 @@ public class ItemsRest {
 
     private ItemsService itemsService;
     private Cat3Service cat3Service;
-    private Cat2Service cat2Service;
-    private Cat1Service cat1Service;
 
-    public ItemsRest(ItemsService itemsService, Cat3Service cat3Service, Cat2Service cat2Service, Cat1Service cat1Service) {
+    public ItemsRest(ItemsService itemsService, Cat3Service cat3Service) {
         this.itemsService = itemsService;
         this.cat3Service = cat3Service;
-        this.cat2Service = cat2Service;
-        this.cat1Service = cat1Service;
     }
 
     //region GET MAPPINGS
@@ -35,8 +32,12 @@ public class ItemsRest {
     }
 
     @GetMapping("/{id}")
-    public Items getItem(@PathVariable int id) {
-        return itemsService.findItem(id);
+    public ResponseEntity<Items> getItem(@PathVariable int id) {
+        Items item = itemsService.findItem(id);
+        if (item == null) {
+            return ResponseEntity.status(HttpStatus.NOT_FOUND).body(null);
+        }
+        return ResponseEntity.ok().body(item);
     }
 
     @GetMapping("/cat/{name}")
@@ -61,10 +62,7 @@ public class ItemsRest {
     //region UPDATE MAPPING
     @PutMapping("/")
     public Items updateItem(@RequestBody Items item) {
-        System.out.println(item);
         cat3Service.saveCat3(item.getCat3());
-        cat2Service.saveCat2(item.getCat3().getCat2());
-        cat1Service.saveCat1(item.getCat3().getCat2().getCat1());
         return itemsService.saveItem(item);
     }
     //endregion

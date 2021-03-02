@@ -1,13 +1,10 @@
 import { Component, OnInit } from '@angular/core';
 import {Cat3} from "../Types/cat3";
-import {Cat2} from "../Types/cat2";
-import {Cat1} from "../Types/cat1";
 import {Items} from "../Types/items";
-import {ItemFormData} from "../Types/itemFormData";
-import {HttpClient} from "@angular/common/http";
 import {ActivatedRoute, Router} from "@angular/router";
-import {Observable} from "rxjs";
-import {NgForm} from "@angular/forms";
+import {FormBuilder} from "@angular/forms";
+import {ItemService} from "../services/item-service/item-service.service";
+import {ItemLevelCatService} from "../services/item-levelCat-service/item-level-cat.service";
 
 @Component({
   selector: 'app-inv-item-edit',
@@ -17,103 +14,139 @@ import {NgForm} from "@angular/forms";
 export class InvItemEditComponent implements OnInit {
 
   //Item object for retrieval and post
-/*  items: Items = {
+  items: Items = new Items();
+
+  //URL params pulled from url
+  itemId: number = 0;
+
+  //Categories for item
+  itemLevel: Cat3[] = [];
+  itemEditForm = this.fb.group({
     id: 0,
     version: 0,
     name: '',
     description: '',
     sku: '',
     price: 0,
-    cat3: {},
-    vendor: {}
-  };*/
-  //Item id pulled from url
-  items: Items = new Items();
-  itemId: number = 0;
-  cat3Name: string = '';
-  //Categories for item
-  itemLevel: Cat3[] = [];
+    cat3_id: 0,
+    vendor: {},
+    location: {},
+    cat3: {
+      id: 0,
+      version: 0,
+      catName: ''
+    }
+  })
+  itemInfo: Items = {
+    id: 0,
+    version: 0,
+    name: '',
+    description: '',
+    sku: '',
+    price: 0,
+    cat3_id: 0,
+    vendor: {
+      address: {
+        city: '',
+        id: 0,
+        state: '',
+        street: '',
+        street2: '',
+        version: 0,
+        zip: 0,
+      },
+      id: 0,
+      name: '',
+      phone: {
+        area_code: 0,
+        id: 0,
+        number: 0,
+        version: 0,
+      },
+      version: 0
+    },
+    location: {
+      address: {
+        city: '',
+        id: 0,
+        state: '',
+        street: '',
+        street2: '',
+        version: 0,
+        zip: 0,
 
-  constructor(private http: HttpClient, private router: Router, private routeParam: ActivatedRoute) {}
-
+      },
+      id: 0,
+      phone: {
+        area_code: 0,
+        id: 0,
+        number: 0,
+        version: 0,
+      },
+      store_code: '',
+      version: 0,
+    },
+    cat3: {
+      id: 0,
+      version: 0,
+      catName: '',
+      cat2: {}
+    }
+  }
+  constructor(private fb: FormBuilder, private router: Router, private routeParam: ActivatedRoute, private itemService: ItemService, private itemCatService: ItemLevelCatService) {
+  }
 
   ngOnInit(): void {
     this.routeParam.params
       .subscribe(param => {
-        console.log(+param.id);
         this.itemId = +param.id;
       })
-    this.retrieveItem(this.itemId)
+
+    this.itemService.getItem(this.itemId)
       .subscribe( item => {
-        console.log(item);
-        this.buildItem(item);
-        console.log(this.items);
+        this.loadEditForm(item);
       }, error => {
         console.log(error);
       })
-/*    this.retrieveTopLevelCategories()
-      .subscribe(cats => {
-        this.topLevel = cats;
-      })
-    this.retrieveMidLevelCategories()
-      .subscribe(cats => {
-        this.midLevel = cats;
-      })*/
 
-    this.retrieveItemLevelCategories()
+    this.itemCatService.getItemLevelCats()
       .subscribe(cats => {
         this.itemLevel = cats;
       })
 
 
   }
-  //Retrieval http requests
-  retrieveItem(id: number): Observable<Items> {
-    return this.http.get<Items>('/api/items/' + this.itemId)
-  }
 
-  retrieveTopLevelCategories() : Observable<Cat1[]> {
-    return this.http.get<Cat1[]>('/api/cat1/');
+  loadEditForm(item: Items) {
+    this.itemInfo = item;
+    this.itemInfo.cat3_id = item.cat3.id;
+    this.itemEditForm.setValue(this.itemInfo);
   }
-
-  retrieveMidLevelCategories() : Observable<Cat2[]> {
-    return this.http.get<Cat2[]>('/api/cat2/');
-  }
-
-  retrieveItemLevelCategories() : Observable<Cat3[]> {
-    return this.http.get<Cat3[]>('/api/cat3/');
-  }
-
   //Reset form when pushed cancel
-  resetForm() {}
+  resetForm() {
+    this.loadEditForm(this.itemInfo);
+  }
 
-  //Building item for the form
-  buildItem(item: object) {
-    this.items.id = item.id;
-    this.items.version = item.version;
-    this.items.name = item.name;
-    this.items.description = item.description;
-    this.items.sku = item.sku;
-    this.items.price = item.price;
-    this.items.cat3 = item.cat3;
-    this.cat3Name = item.cat3.catName;
-    this.items.cat3_id = item.cat3.id;
-  }
+  //Update ItemCat for Item
   updateModel() {
-    this.http.get<Cat3>('/api/cat3/' + this.items.cat3_id)
-      .subscribe((result => {
-        console.log(result);
-        this.items.cat3 = result;
-        console.log(this.items.cat3);
-      }))
-  }
+    this.itemCatService.getItemLevelCatById(this.itemEditForm.controls.cat3_id.value)
+      .subscribe(result => {
+        this.itemEditForm.patchValue({
+          cat3_id: result.id,
+          cat3: {
+            id: result.id,
+            version: result.version,
+            catName: result.catName,
+            cat2: result.cat2
+          }
+        });
+      });
+    }
   //POSTING FORM
-  submit(f: NgForm) {
-    console.log(this.items.cat3_id);
-    this.http.put('/api/items/', this.items)
+  submit() {
+    this.itemService.updateItem(this.itemEditForm.value)
       .subscribe(async result => {
-        console.log(result);
-        await this.router.navigateByUrl('/cat/' + this.items.cat3.catName);
+        await this.router.navigateByUrl('/cat/' + this.itemEditForm.controls.cat3.value.catName);
           },
         error =>  {
           console.log(error);

@@ -23,10 +23,10 @@ public class Vendor {
     @OneToMany(cascade = CascadeType.ALL, mappedBy = "vendor")
     private List<Items> itemsList;
 
-    @OneToOne
+    @OneToOne(cascade = CascadeType.ALL)
     private Address address;
 
-    @OneToOne
+    @OneToOne(cascade = CascadeType.ALL)
     private Phone phone;
     //endregion
 
@@ -74,5 +74,21 @@ public class Vendor {
         this.itemsList = itemsList;
     }
 
-//endregion
+    public Address getAddress() {
+        return address;
+    }
+
+    public void setAddress(Address address) {
+        this.address = address;
+    }
+
+    public Phone getPhone() {
+        return phone;
+    }
+
+    public void setPhone(Phone phone) {
+        this.phone = phone;
+    }
+
+    //endregion
 }

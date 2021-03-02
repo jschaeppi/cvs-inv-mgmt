@@ -10,7 +10,7 @@ import java.util.List;
 
 public interface ItemsRepository extends CrudRepository<Items, Integer> {
 
-    @Query("SELECT i, c1.id, c1.version, c1.name, c2, c3 " +
+    @Query("SELECT i, c1.id, c1.version, c1.catName, c2, c3 " +
             "FROM Items i " +
             "JOIN FETCH Cat3 c3 on i.cat3.id = c3.id " +
             "JOIN FETCH Cat2 c2 on c3.cat2.id = c2.id " +

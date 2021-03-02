@@ -15,6 +15,6 @@ public interface Cat3Repository extends CrudRepository<Cat3, Integer> {
             "FROM Cat1 c1 " +
             "JOIN FETCH Cat2 c2 on c1.id = c2.cat1.id " +
             "JOIN FETCH Cat3 c3 on c3.cat2.id = c2.id " +
-            "WHERE c1.name = :catName")
+            "WHERE c1.catName = :catName")
     List<Cat3> findNavLinkCats(@PathVariable String catName);
 }

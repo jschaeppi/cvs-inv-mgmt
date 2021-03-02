@@ -1,7 +1,11 @@
 package com.astontech.inventory.cvsinv.rest;
 
 import com.astontech.inventory.cvsinv.domain.Vendor;
+import com.astontech.inventory.cvsinv.services.AddressService;
+import com.astontech.inventory.cvsinv.services.PhoneService;
 import com.astontech.inventory.cvsinv.services.VendorService;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
@@ -11,6 +15,8 @@ import java.util.List;
 public class VendorRest {
 
     private VendorService vendorService;
+    private AddressService addressService;
+    private PhoneService phoneService;
 
     public VendorRest(VendorService vendorService) {
         this.vendorService = vendorService;
@@ -32,7 +38,18 @@ public class VendorRest {
     //region SAVE MAPPINGS
 
     @PostMapping("/")
-    public Vendor saveVendor(@RequestBody Vendor vendor) {
+    public ResponseEntity<Vendor> saveVendor(@RequestBody Vendor vendor) {
+        System.out.println("I'm in the POST BODY");
+        Vendor savedVendor = vendorService.saveVendor(vendor);
+        if (!savedVendor.equals(null)) {
+            ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body(null);
+        }
+        return ResponseEntity.ok().body(savedVendor);
+    }
+
+    @PutMapping("/")
+    public Vendor updateVendor(@RequestBody Vendor vendor) {
+        System.out.println("I'm in the POST BODY");
         return vendorService.saveVendor(vendor);
     }
     //endregion

@@ -32,8 +32,8 @@ public class AddressRest {
     //region SAVE MAPPINGS
 
     @PostMapping("/")
-    public Address saveAddress(@RequestBody Address vendor) {
-        return addressService.saveAddress(vendor);
+    public Address saveAddress(@RequestBody Address address) {
+        return addressService.saveAddress(address);
     }
     //endregion
 

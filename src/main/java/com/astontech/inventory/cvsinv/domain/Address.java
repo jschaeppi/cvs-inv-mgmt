@@ -4,6 +4,8 @@ package com.astontech.inventory.cvsinv.domain;
 //CREATED ON: 2/6/21
 //BY: joe
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
+
 import javax.persistence.*;
 
 @Entity
@@ -12,6 +14,7 @@ public class Address {
     //region PROPERTIES
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @Column(name = "address_id")
     private Integer id;
 
     @Version
@@ -23,10 +26,11 @@ public class Address {
     private String state;
     private int zip;
 
-    @OneToOne
+    @OneToOne(mappedBy = "address")
+    @JsonIgnore
     private Vendor vendor;
 
-    @OneToOne
+    @OneToOne(cascade = CascadeType.ALL)
     @JoinColumn(name = "location_id")
     private Location location;
     //endregion

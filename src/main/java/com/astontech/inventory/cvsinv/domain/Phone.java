@@ -4,6 +4,8 @@ package com.astontech.inventory.cvsinv.domain;
 //CREATED ON: 2/6/21
 //BY: joe
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
+
 import javax.persistence.*;
 
 @Entity
@@ -20,7 +22,8 @@ public class Phone {
     private int area_code;
     private int number;
 
-    @OneToOne
+    @OneToOne(mappedBy = "phone")
+    @JsonIgnore
     private Vendor vendor;
 
     @OneToOne

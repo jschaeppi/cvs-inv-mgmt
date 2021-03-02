@@ -2,8 +2,8 @@ import { Component, OnInit } from '@angular/core';
 import {HttpClient} from "@angular/common/http";
 import {Observable} from "rxjs";
 import {Items} from "../Types/items";
-import {ActivatedRoute, Event, NavigationEnd, Router} from "@angular/router";
-import {ClarityIcons} from "@clr/icons";
+import {ActivatedRoute, Event, NavigationEnd, NavigationStart, Router} from "@angular/router";
+import {ItemService} from "../services/item-service/item-service.service";
 
 @Component({
   selector: 'app-inv-item-table',
@@ -13,8 +13,10 @@ import {ClarityIcons} from "@clr/icons";
 export class InvItemTableComponent implements OnInit {
   items: Items[] = [];
   itemCatName: string | null = '';
+  fetchingInformation: boolean = false;
+  errorStatus: boolean = false;
 
-  constructor(private http: HttpClient, private routeParam: ActivatedRoute, private route: Router) {
+  constructor(private http: HttpClient, private routeParam: ActivatedRoute, private route: Router, private itemService: ItemService) {
     this.route.events.subscribe(event => {
       this.items = [];
       this.routeChange(event);
@@ -24,29 +26,34 @@ export class InvItemTableComponent implements OnInit {
 
   }
 
-  getItems() : Observable<Items[]> {
-    return this.http.get<Items[]>('/api/items/');
-
-  }
-
-  getItemByName(catName: string | null) : Observable<Items[]> {
-      return this.http.get<Items[]>('/api/items/cat/' + catName);
-  }
-
   routeChange(event:Event) {
-    if (event instanceof NavigationEnd) {
+    if (event instanceof NavigationStart) {
+      this.fetchingInformation = true;
+
+    }
+    else if (event instanceof NavigationEnd) {
+      const id = this.routeParam.snapshot.paramMap.get('id');
       this.itemCatName = this.routeParam.snapshot.paramMap.get("catName");
-      console.log(this.itemCatName);
       if (this.itemCatName == null) {
-        this.getItems()
+        this.itemService.getItems()
           .subscribe(itemList => {
+            this.fetchingInformation = false;
             this.items = itemList;
+          }, error => {
+            console.log(error);
+            this.errorStatus = true;
           });
-      } else {
-        this.getItemByName(this.itemCatName)
+      } else if(this.itemCatName != null){
+        this.itemService.getByItemCat(this.itemCatName)
           .subscribe(itemList => {
             this.items = itemList;
-          })
+            this.fetchingInformation = false;
+          }, error => {
+            console.log(error);
+            this.errorStatus = true;
+            console.log(this.errorStatus);
+            this.route.navigate(['/dashboard']);
+          });
       }
     }
   }

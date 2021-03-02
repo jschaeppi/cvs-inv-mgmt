@@ -7,17 +7,19 @@
     <a href="javascript://" class="nav-link nav-text">Interactive Analytics</a>
   </div>
   <div class="header-actions">
-    <a href="javascript://" class="nav-link nav-icon" aria-label="settings">
-      <clr-icon shape="cog"></clr-icon>
+    <a routerLink="/inv/item/add" routerLinkActive="active" class="nav-link nav-icon" aria-label="settings">
+      <clr-icon shape="plus"></clr-icon>
     </a>
   </div>
 </header>
 <div class="main-container">
   <div class="content-container">
     <clr-vertical-nav [clrVerticalNavCollapsible]="true">
-      <clr-vertical-nav-group *ngFor="let nav of navLinks">
-        {{nav.name}}
-        <clr-vertical-nav-group-children *ngFor="let itemCat of nav.catItems">
+      <clr-vertical-nav-group (click)="getItemLevelCat(nav, i)" *ngFor="let nav of navLinks; let i = index">
+        {{nav.catName}}
+
+        <clr-vertical-nav-group-children c clrIfExpanded="getItemLevelCat(nav, i)" *ngFor="let itemCat of nav.catItems">
+          <clr-spinner *ngIf="navLoading">Loading</clr-spinner>
           <a clrVerticalNavLink
              [routerLink]="['/cat', itemCat.catName]"
              routerLinkActive="active">
