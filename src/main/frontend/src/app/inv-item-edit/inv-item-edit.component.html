@@ -4,25 +4,34 @@
       <input clrInput type="text" id="itemName" formControlName="name" placeholder="ex. Jif Peanut Butter" required />
       <clr-control-error minlength="1" >Please enter an item name</clr-control-error>
     </clr-input-container>
-  <clr-select-container>
+  <clr-select-container formGroupName="cat3">
     <label for="itemCategory" class="clr-control-label">Item Level Category:</label>
     <select clrSelect
             class="clr-form-control"
             id="itemCategory"
-            formControlName="cat3_id"
-            clrLayout="vertical"
-            responsive="true"
-            validate="true"
-            (change)="updateModel()"
+            formControlName="id"
+            (change)="updateItemCat(itemEditForm.get('cat3').value.id)"
             required >
-      <option name="id" value="{{item.id}}" *ngFor="let item of itemLevel">{{item.catName}}</option>
+      <option name="id" value="{{item.id}}" *ngFor="let item of itemLevel | async">{{item.catName}}</option>
+      <clr-control-error ></clr-control-error>
+    </select>
+  </clr-select-container>
+  <clr-select-container formGroupName="vendor">
+    <label for="itemVendor" class="clr-control-label">Vendor:</label>
+    <select clrSelect
+            class="clr-form-control"
+            id="itemVendor"
+            formControlName="id"
+            (change)="updateItemVendor(itemEditForm.get('vendor').value.id)"
+            required >
+      <option name="id" value="{{vendor.id}}" *ngFor="let vendor of itemVendor | async">{{vendor.name}}</option>
       <clr-control-error ></clr-control-error>
     </select>
   </clr-select-container>
     <clr-textarea-container>
       <label for="description" class="clr-control-label">Item Description</label>
       <textarea clrTextarea id="description" formControlName="description" placeholder="Item Description" required ></textarea>
-      <clr-control-error minlength="1" >Please enter a description</clr-control-error>
+      <clr-control-error>Please enter a description</clr-control-error>
     </clr-textarea-container>
     <clr-input-container>
       <label for="sku" class="clr-control-label">SKU:</label>

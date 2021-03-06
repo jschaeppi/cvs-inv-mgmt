@@ -1,17 +1,22 @@
-<!--
+<div [hidden]="!submitted" class="alert alert-success">
+  {{vendor}} was added successfully!
+</div>
 <clr-datagrid>
-  <clr-dg-column>User ID</clr-dg-column>
-  <clr-dg-column>Name</clr-dg-column>
-  <clr-dg-column>Creation date</clr-dg-column>
-  <clr-dg-column>Favorite color</clr-dg-column>
+  <clr-dg-column>Vendor Id</clr-dg-column>
+  <clr-dg-column>Vendor Name</clr-dg-column>
+  <clr-dg-column>Vendor Address</clr-dg-column>
+  <clr-dg-column>Vendor Phone</clr-dg-column>
+  <clr-dg-column></clr-dg-column>
+  <clr-dg-column></clr-dg-column>
 
-  <clr-dg-row *ngFor="let user of users">
-    <clr-dg-cell>{{user.id}}</clr-dg-cell>
-    <clr-dg-cell>{{user.name}}</clr-dg-cell>
-    <clr-dg-cell>{{user.creation | date}}</clr-dg-cell>
-    <clr-dg-cell>{{user.color}}</clr-dg-cell>
+  <clr-dg-row *ngFor="let vendor of vendorList | async">
+    <clr-dg-cell>{{vendor.id}}</clr-dg-cell>
+    <clr-dg-cell>{{vendor.name}}</clr-dg-cell>
+    <clr-dg-cell>{{vendor.address.street}} {{vendor.address.city}} {{vendor.address.state}}</clr-dg-cell>
+    <clr-dg-cell>{{vendor.phone.area_code}}-{{vendor.phone.number}}</clr-dg-cell>
+    <clr-dg-cell><button class="btn btn-primary btn-sm" [routerLink]="['edit', vendor.id]" routerLinkActive="true">Edit</button></clr-dg-cell>
+    <clr-dg-cell><button class="btn btn-danger btn-sm" [routerLink]="['delete', vendor.id]" routerLinkActive="true">Delete</button></clr-dg-cell>
   </clr-dg-row>
 
-  <clr-dg-footer>{{users.length}} users</clr-dg-footer>
+<!--  <clr-dg-footer>{{vendorList.}} vendors</clr-dg-footer>-->
 </clr-datagrid>
--->

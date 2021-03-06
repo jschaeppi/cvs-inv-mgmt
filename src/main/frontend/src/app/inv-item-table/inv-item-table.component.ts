@@ -11,50 +11,45 @@ import {ItemService} from "../services/item-service/item-service.service";
   styleUrls: ['./inv-item-table.component.css']
 })
 export class InvItemTableComponent implements OnInit {
-  items: Items[] = [];
+  items: Observable<Items[]>;
   itemCatName: string | null = '';
   fetchingInformation: boolean = false;
   errorStatus: boolean = false;
 
   constructor(private http: HttpClient, private routeParam: ActivatedRoute, private route: Router, private itemService: ItemService) {
     this.route.events.subscribe(event => {
-      this.items = [];
       this.routeChange(event);
     })
+    this.items = this.loadItems();
+    if (this.items == null) {
+      this.fetchingInformation = false;
+      this.errorStatus = true;
+    } else {
+      this.fetchingInformation = false;
+      this.errorStatus = false;
+    }
   }
+
   ngOnInit(): void {
 
   }
 
-  routeChange(event:Event) {
+  routeChange(event: Event) {
     if (event instanceof NavigationStart) {
       this.fetchingInformation = true;
 
-    }
-    else if (event instanceof NavigationEnd) {
-      const id = this.routeParam.snapshot.paramMap.get('id');
+    } else if (event instanceof NavigationEnd) {
       this.itemCatName = this.routeParam.snapshot.paramMap.get("catName");
-      if (this.itemCatName == null) {
-        this.itemService.getItems()
-          .subscribe(itemList => {
-            this.fetchingInformation = false;
-            this.items = itemList;
-          }, error => {
-            console.log(error);
-            this.errorStatus = true;
-          });
-      } else if(this.itemCatName != null){
-        this.itemService.getByItemCat(this.itemCatName)
-          .subscribe(itemList => {
-            this.items = itemList;
-            this.fetchingInformation = false;
-          }, error => {
-            console.log(error);
-            this.errorStatus = true;
-            console.log(this.errorStatus);
-            this.route.navigate(['/dashboard']);
-          });
-      }
+      this.errorStatus = false;
+      this.items = this.loadItems();
+    }
+  }
+
+  loadItems(): Observable<Items[]> {
+    if (this.itemCatName == null) {
+      return this.itemService.getItems();
+    } else {
+      return this.itemService.getByItemCat(this.itemCatName);
     }
   }
 }

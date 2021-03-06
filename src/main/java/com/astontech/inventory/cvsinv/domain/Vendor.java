@@ -4,6 +4,8 @@ package com.astontech.inventory.cvsinv.domain;
 //CREATED ON: 2/6/21
 //BY: joe
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
+
 import javax.persistence.*;
 import java.util.List;
 
@@ -21,6 +23,7 @@ public class Vendor {
     private String name;
 
     @OneToMany(cascade = CascadeType.ALL, mappedBy = "vendor")
+    @JsonIgnore
     private List<Items> itemsList;
 
     @OneToOne(cascade = CascadeType.ALL)

@@ -1,10 +1,9 @@
-<div [hidden] ="!submitted" class="alert alert-danger">
+<div [hidden] ="!error" class="alert alert-danger">
   Form couldn't be submitted.  Review errors
 </div>
 <div [hidden]="!submitted" class="alert alert-success">
   {{vendorEdit.value.name}} was added successfully!
 </div>
-<ng-container *ngIf="vendorEdit">
 <form clrForm clrLayout="horizontal" [formGroup]="vendorEdit">
   <h3>Vendor</h3>
   <clr-control-container>
@@ -46,11 +45,5 @@
     </clr-control-container>
   </div>
   <button class="btn btn-primary" (click)="submit()">Submit</button>
-
 </form>
-</ng-container>
-{{vendorEdit.valid}}
-{{vendorEdit.pristine}}
-{{vendorEdit.touched}}
-{{vendorEdit.value | json}}
 

@@ -1,10 +1,8 @@
 import { Component, OnInit } from '@angular/core';
-import {AbstractControl, FormArray, FormBuilder, FormGroup} from "@angular/forms";
+import {FormBuilder, FormGroup} from "@angular/forms";
 import {Vendor} from "../../Types/Vendor";
-import {Phone} from "../../Types/Phone";
-import {ActivatedRoute} from "@angular/router";
+import {ActivatedRoute, Router} from "@angular/router";
 import {VendorService} from "../../services/vendor-service/vendor-service.service";
-import {Address} from "../../Types/Address";
 
 @Component({
   selector: 'app-vendor-edit',
@@ -18,58 +16,72 @@ export class VendorEditComponent implements OnInit {
   error: boolean = false;
   vendorId: number = 0;
 
-  constructor(private fb: FormBuilder, private vendorService: VendorService, private route: ActivatedRoute) {
+  constructor(private fb: FormBuilder, private vendorService: VendorService, private route: ActivatedRoute, private router: Router) {
     this.vendorEdit = this.fb.group(this.vendor)
     this.route.params.subscribe(param => this.vendorId = +param.id);
   }
 
   ngOnInit(): void {
+    this.initForm();
     this.vendorService.getVendor(this.vendorId)
       .subscribe(vendor => {
         this.vendor = vendor;
-        if (this.vendor != null) {
+        console.log(this.vendor);
           this.buildForm();
-        }
 
       })
   }
 
+
+  initForm() {
+    this.vendorEdit = this.fb.group({
+      id: this.vendor.id,
+      version: this.vendor.version,
+      name: this.fb.control(this.vendor.name),
+      address: this.addAddress(),
+      phone: this.addPhone()
+    });
+  }
   buildForm() {
-      this.vendorEdit = this.fb.group({
+/*      this.vendorEdit = this.fb.group({
         id: this.vendor.id,
         version: this.vendor.version,
         name: this.fb.control(this.vendor.name),
         address: this.addAddress(),
         phone: this.addPhone()
-      });
-    console.log(this.vendorAddress);
-    console.log(this.vendorPhone);
+      });*/
+    this.vendorEdit.patchValue(this.vendor)
   }
 
   addAddress() {
-    if (!this.vendor) {
+    if (this.vendor.id == null) {
       return this.fb.group({
-        id: 0,
-        version: 0,
-        street: '',
-        street2: '',
-        city: '',
-        state: '',
-        zip: 0
+        street: this.fb.control(''),
+        street2: this.fb.control(''),
+        city: this.fb.control(''),
+        state: this.fb.control(''),
+        zip: this.fb.control(0)
+      })
+    } else {
+      return this.fb.group({
+        id: this.vendor.id,
+        version: this.vendor.version,
+        street: this.fb.control(this.vendor.address.street),
+        street2: this.fb.control(this.vendor.address.street2),
+        city: this.fb.control(this.vendor.address.city),
+        state: this.fb.control(this.vendor.address.state),
+        zip: this.fb.control(this.vendor.address.zip)
       })
     }
-    return this.fb.group({
-      id: this.vendor.id,
-      version: this.vendor.version ,
-      street: this.fb.control(this.vendor.address.street),
-      street2: this.fb.control(this.vendor.address.street2),
-      city: this.fb.control(this.vendor.address.city),
-      state: this.fb.control(this.vendor.address.state),
-      zip: this.fb.control(this.vendor.address.zip)
-    })
   }
 
   addPhone() {
+    if (this.vendor.id == null) {
+      return this.fb.group({
+        area_code: this.fb.control(0),
+        number: this.fb.control(0),
+      })
+    } else {
       return this.fb.group({
         id: this.vendor.id,
         version: this.vendor.version,
@@ -77,6 +89,7 @@ export class VendorEditComponent implements OnInit {
         number: this.fb.control(this.vendor.phone.number),
       })
     }
+  }
 
   get vendorAddress() {
     return this.vendorEdit.get('address');
@@ -89,15 +102,16 @@ export class VendorEditComponent implements OnInit {
     this.vendorEdit.reset();
   }
   submit() {
-    let savedVendor: Vendor;
     if (this.vendorEdit.valid) {
-      console.log(this.vendorEdit);
-      this.submitted = true;
-      this.vendorService.addVendor(this.vendorEdit.value)
-        .subscribe(vendor => {
-          savedVendor = vendor;
-          console.log(savedVendor);
-        })
+      if (this.vendorEdit.dirty) {
+        const v = {...this.vendor, ...this.vendorEdit.value };
+        this.submitted = true;
+              this.vendorService.updateVendor(v)
+                .subscribe(vendor => {
+                  console.log(vendor);
+                })
+        this.router.navigate(['/vendor/', {vendor: v.name}]);
+      }
     } else {
       this.submitted = false;
       this.error = true;
