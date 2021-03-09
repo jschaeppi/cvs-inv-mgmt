@@ -34,6 +34,12 @@ public class LocationRest {
 
     @PostMapping("/")
     public Location saveLocation(@RequestBody Location location) {
+
+        return locationService.saveLocation(location);
+    }
+
+    @PutMapping("/")
+    public Location updateLocation(@RequestBody Location location) {
         return locationService.saveLocation(location);
     }
     //endregion

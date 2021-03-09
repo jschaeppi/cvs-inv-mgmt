@@ -3,13 +3,9 @@
     CVS Inventory
   </div>
   <div class="header-nav">
-    <a routerLink="/dashboard" routerLinkActive="active" class="active nav-link nav-text">Dashboard</a>
-    <a routerLink="/vendor" routerLinkActive="active" class="nav-link nav-text">Vendors</a>
-  </div>
-  <div class="header-actions">
-    <a routerLink="/inv/item/add" routerLinkActive="active" class="nav-link nav-icon" aria-label="settings">
-      <clr-icon shape="plus"></clr-icon>
-    </a>
+    <a routerLink="/inv" routerLinkActive="active" class="active nav-link nav-text">Dashboard</a>
+    <a routerLink="/vendor" routerLinkActive="active" class="active nav-link nav-text">Vendors</a>
+    <a routerLink="/stores" routerLinkActive="active" class="active nav-link nav-text">Stores</a>
   </div>
 </header>
 <div class="main-container">
@@ -21,7 +17,7 @@
         <clr-vertical-nav-group-children c clrIfExpanded="getItemLevelCat(nav, i)" *ngFor="let itemCat of nav.catItems">
           <clr-spinner *ngIf="navLoading">Loading</clr-spinner>
           <a clrVerticalNavLink
-             [routerLink]="['/cat', itemCat.catName]"
+             [routerLink]="['/inv/cat', itemCat.catName]"
              routerLinkActive="active">
             {{itemCat.catName}}
           </a>

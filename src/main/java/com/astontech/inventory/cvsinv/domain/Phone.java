@@ -26,8 +26,9 @@ public class Phone {
     @JsonIgnore
     private Vendor vendor;
 
-    @OneToOne
+    @OneToOne(mappedBy = "phone")
     @JoinColumn(name = "location_id")
+    @JsonIgnore
     private Location location;
     //endregion
 

@@ -5,12 +5,20 @@
 <!--Todo Finish error checking-->
   <ng-container *ngIf="!errorStatus; else errorTrue">
     </ng-container>
+  <div class="header-actions">
+    <a routerLink="/inv/item/add" routerLinkActive="active" class="nav-link nav-icon" aria-label="settings">
+      <clr-icon shape="plus"></clr-icon>
+    </a>
+  </div>
   <clr-datagrid>
-    <clr-dg-column>User ID</clr-dg-column>
+    <clr-dg-column>Item ID</clr-dg-column>
     <clr-dg-column [clrDgField]="'itemsName'">Item</clr-dg-column>
     <clr-dg-column [clrDgField]="'itemDescription'">Description</clr-dg-column>
     <clr-dg-column [clrDgField]="'itemSKU'">SKU</clr-dg-column>
     <clr-dg-column [clrDgField]="'price'">Price</clr-dg-column>
+    <clr-dg-column [clrDgField]="'category'">Category</clr-dg-column>
+    <clr-dg-column [clrDgField]="'edit'"></clr-dg-column>
+    <clr-dg-column [clrDgField]="'delete'"></clr-dg-column>
 
     <clr-dg-row *clrDgItems="let item of items | async">
       <clr-dg-cell>{{item.id}}</clr-dg-cell>
@@ -18,6 +26,9 @@
       <clr-dg-cell >{{item.description ? item.description : "No Data"}}</clr-dg-cell>
       <clr-dg-cell>{{item.sku}}</clr-dg-cell>
       <clr-dg-cell>{{item.price ? item.price : "No Price"}}</clr-dg-cell>
+      <clr-dg-cell>{{item.cat3 ? item.cat3.catName : "Uncategorized"}}</clr-dg-cell>
+      <clr-dg-cell><button class="btn btn-primary btn-sm" [routerLink]="['/inv/item/edit', item.id]" routerLinkActive="true">Edit</button></clr-dg-cell>
+      <clr-dg-cell><button class="btn btn-danger btn-sm" [routerLink]="['/inv/item/delete', item.id]" routerLinkActive="true">Delete</button></clr-dg-cell>
     </clr-dg-row>
     <clr-dg-footer *ngIf="(items | async)">{{(items | async) ? (items | async).length : 0 }} Items</clr-dg-footer>
   </clr-datagrid>

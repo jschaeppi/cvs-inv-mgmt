@@ -1,9 +1,9 @@
 import { Component, OnInit } from '@angular/core';
 import {HttpClient} from "@angular/common/http";
 import {Observable} from "rxjs";
-import {Items} from "../Types/items";
+import {Items} from "../../Types/items";
 import {ActivatedRoute, Event, NavigationEnd, NavigationStart, Router} from "@angular/router";
-import {ItemService} from "../services/item-service/item-service.service";
+import {ItemService} from "../../services/item-service/item-service.service";
 
 @Component({
   selector: 'app-inv-item-table',

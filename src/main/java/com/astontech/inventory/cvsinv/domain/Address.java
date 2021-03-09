@@ -30,8 +30,9 @@ public class Address {
     @JsonIgnore
     private Vendor vendor;
 
-    @OneToOne(cascade = CascadeType.ALL)
+    @OneToOne(mappedBy = "address")
     @JoinColumn(name = "location_id")
+    @JsonIgnore
     private Location location;
     //endregion
 

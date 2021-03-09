@@ -1,14 +1,14 @@
 import { Component, OnInit } from '@angular/core';
-import {Cat3} from "../Types/cat3";
-import {Items} from "../Types/items";
+import {Cat3} from "../../Types/cat3";
+import {Items} from "../../Types/items";
 import {ActivatedRoute, Router} from "@angular/router";
 import {AbstractControl, FormBuilder, FormGroup} from "@angular/forms";
-import {ItemService} from "../services/item-service/item-service.service";
-import {ItemLevelCatService} from "../services/item-levelCat-service/item-level-cat.service";
-import {Vendor} from "../Types/Vendor";
-import {VendorService} from "../services/vendor-service/vendor-service.service";
+import {ItemService} from "../../services/item-service/item-service.service";
+import {ItemLevelCatService} from "../../services/item-levelCat-service/item-level-cat.service";
+import {Vendor} from "../../Types/Vendor";
+import {VendorService} from "../../services/vendor-service/vendor-service.service";
 import {Observable} from "rxjs";
-import {Cat2} from "../Types/cat2";
+import {Cat2} from "../../Types/cat2";
 
 @Component({
   selector: 'app-inv-item-edit',

@@ -1,20 +1,15 @@
 import {LocationInterface} from "./Interface/LocationInterface";
+import {Phone} from "./Phone";
+import {Items} from "./items";
+import {Address} from "./Address";
 
 export class Location implements LocationInterface {
-  address = {
-    street: '',
-    street2: '',
-    city: '',
-    state: '',
-    zip: 0,
-
-  };
-  phone = {
-    area_code: 0,
-    id: 0,
-    number: 0,
-    version: 0,
-  };
+  id = 0;
+  version = 0;
+  address = new Address()
+  phone = new Phone();
   store_code = '';
+  count = 0;
+  name = '';
 
 }

@@ -5,6 +5,7 @@ package com.astontech.inventory.cvsinv.domain;
 //BY: joe
 
 import javax.persistence.*;
+import java.util.List;
 
 @Entity
 public class Location {
@@ -12,20 +13,32 @@ public class Location {
     //region PROPERTIES
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @Column(name = "location_id")
     private Integer id;
 
     @Version
     private Integer version;
 
-    private String store_code;
+    private Integer count;
 
-    @OneToOne
+    private String store_code;
+    private String name;
+
+
+    @OneToOne(cascade = CascadeType.ALL)
     private Address address;
 
-    @OneToOne
+    @OneToOne(cascade = CascadeType.ALL)
     private Phone phone;
     //endregion
 
+    @ManyToMany(cascade = CascadeType.ALL)
+    @JoinTable(
+       name = "location_items",
+       joinColumns = @JoinColumn(name = "location_id"),
+       inverseJoinColumns = @JoinColumn(name = "items_id")
+    )
+    private List<Items> itemsList;
     //region Constructors
 
     public Location() {
@@ -35,6 +48,11 @@ public class Location {
         this.store_code = store_code;
     }
 
+    public Location(String name, String store_code, Integer count) {
+        this.count = count;
+        this.store_code = store_code;
+        this.name = name;
+    }
 
     //endregion
     //region GETTERS AND SETTERS
@@ -78,5 +96,30 @@ public class Location {
     public void setPhone(Phone phone) {
         this.phone = phone;
     }
-//endregion
+
+    public Integer getCount() {
+        return count;
+    }
+
+    public void setCount(Integer count) {
+        this.count = count;
+    }
+
+    public String getName() {
+        return name;
+    }
+
+    public void setName(String name) {
+        this.name = name;
+    }
+
+    public List<Items> getItemsList() {
+        return itemsList;
+    }
+
+    public void setItemList(List<Items> itemsList) {
+        this.itemsList = itemsList;
+    }
+
+    //endregion
 }

@@ -11,6 +11,7 @@ import com.fasterxml.jackson.annotation.ObjectIdGenerators;
 
 import javax.persistence.*;
 import javax.validation.constraints.Size;
+import java.util.List;
 
 @Entity
 @Table(name = "Items")
@@ -42,6 +43,8 @@ public class Items {
     private Vendor vendor;
     //endregion
 
+    @ManyToMany(mappedBy = "itemsList")
+    private List<Location> locationList;
     //region Constructors
 
     public Items() {
@@ -51,17 +54,17 @@ public class Items {
         this.name = name;
         this.description = description;
         this.sku = sku;
+        this.price = price;
     }
 
     public Items(String name, String sku, double price) {
         this.name = name;
-        this.description = description;
         this.sku = sku;
+        this.price = price;
     }
 
     public Items(String name, String sku, double price, Cat3 cat3) {
         this.name = name;
-        this.description = description;
         this.sku = sku;
         this.cat3 = cat3;
     }
@@ -131,6 +134,14 @@ public class Items {
 
     public void setVendor(Vendor vendor) {
         this.vendor = vendor;
+    }
+
+    public List<Location> getLocationList() {
+        return locationList;
+    }
+
+    public void setLocationList(List<Location> locationList) {
+        this.locationList = locationList;
     }
 
     //endregion

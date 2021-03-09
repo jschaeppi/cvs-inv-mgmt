@@ -55,7 +55,6 @@ public class ItemsRest {
 
     @PostMapping("/")
     public Items saveItem(@RequestBody Items item) {
-        System.out.println(item);
         return itemsService.saveItem(item);
     }
 

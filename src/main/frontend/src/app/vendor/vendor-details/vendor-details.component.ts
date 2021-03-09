@@ -16,7 +16,7 @@ export class VendorDetailsComponent implements OnInit {
   vendorList: Observable<Vendor[]>
   constructor(private route: ActivatedRoute, private vendorService: VendorService) {
     this.submittedVendor$ = this.route.params;
-    this.vendor = this.submittedVendor$.value.vendor;
+    this.vendor = '';
     this.vendorList = this.getVendors();
 
   }

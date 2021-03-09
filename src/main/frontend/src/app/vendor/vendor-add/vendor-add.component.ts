@@ -80,6 +80,7 @@ export class VendorAddComponent implements OnInit {
              savedVendor = vendor;
              console.log(savedVendor);
            })
+      // this.vendorAdd.reset();
     } else {
       this.submitted = false;
       this.error = true;

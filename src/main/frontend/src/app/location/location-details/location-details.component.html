@@ -1,1 +1,69 @@
-<p>location-details works!</p>
+<ng-template #errorTrue>
+  <clr-control-error class="alert alert-danger">No items exist under Category {{itemCatName}}</clr-control-error>
+</ng-template>
+<div *ngIf= "!fetchingInformation; else loading">
+  <!--Todo Finish error checking-->
+  <ng-container *ngIf="!errorStatus; else errorTrue">
+  </ng-container>
+  <div class="header-actions">
+    <a routerLink="/stores/add" routerLinkActive="active" class="nav-link nav-icon" aria-label="settings">
+      <clr-icon shape="plus"></clr-icon>
+    </a>
+  </div>
+  <clr-datagrid *ngIf="storeId">
+    <clr-dg-column>Item ID</clr-dg-column>
+    <clr-dg-column [clrDgField]="'storeName'">Store</clr-dg-column>
+    <clr-dg-column [clrDgField]="'storeCode'">Code</clr-dg-column>
+    <clr-dg-column [clrDgField]="'storeAddress'">Address</clr-dg-column>
+    <clr-dg-column [clrDgField]="'storeCity'">City</clr-dg-column>
+    <clr-dg-column [clrDgField]="'storeState'">State</clr-dg-column>
+    <clr-dg-column [clrDgField]="'storeZip'">Zip</clr-dg-column>
+    <clr-dg-column [clrDgField]="'storePhone'">Phone</clr-dg-column>
+    <clr-dg-column [clrDgField]="'edit'"></clr-dg-column>
+    <clr-dg-column [clrDgField]="'delete'"></clr-dg-column>
+
+    <clr-dg-row>
+      <clr-dg-cell>{{locationService.location.id}}</clr-dg-cell>
+      <clr-dg-cell><a [routerLink]="['/stores/edit', locationService.location.id]" routerLinkActive="active">{{locationService.location.name}}</a></clr-dg-cell>
+      <clr-dg-cell >{{locationService.location.store_code}}</clr-dg-cell>
+      <clr-dg-cell >{{locationService.location.address.street}}</clr-dg-cell>
+      <clr-dg-cell >{{locationService.location.address.city}}</clr-dg-cell>
+      <clr-dg-cell >{{locationService.location.address.state}}</clr-dg-cell>
+      <clr-dg-cell >{{locationService.location.address.zip}}</clr-dg-cell>
+      <clr-dg-cell >{{locationService.location.phone.area_code}}-{{locationService.location.phone.number}}</clr-dg-cell>
+      <clr-dg-cell><button class="btn btn-primary btn-sm" [routerLink]="['/stores/edit', locationService.location.id]" routerLinkActive="true">Edit</button></clr-dg-cell>
+      <clr-dg-cell><button class="btn btn-danger btn-sm" [routerLink]="['/stores/delete', locationService.location.id]" routerLinkActive="true">Delete</button></clr-dg-cell>
+    </clr-dg-row>
+    <clr-dg-footer *ngIf="(locationService.location)">{{(locationService.location) ? (locationService.location).length : 0 }} Locations</clr-dg-footer>
+  </clr-datagrid>
+
+  <clr-datagrid *ngIf="!storeId">
+    <clr-dg-column>Item ID</clr-dg-column>
+    <clr-dg-column [clrDgField]="'storeName'">Store</clr-dg-column>
+    <clr-dg-column [clrDgField]="'storeCode'">Code</clr-dg-column>
+    <clr-dg-column [clrDgField]="'storeAddress'">Address</clr-dg-column>
+    <clr-dg-column [clrDgField]="'storeCity'">City</clr-dg-column>
+    <clr-dg-column [clrDgField]="'storeState'">State</clr-dg-column>
+    <clr-dg-column [clrDgField]="'storeZip'">Zip</clr-dg-column>
+    <clr-dg-column [clrDgField]="'storePhone'">Phone</clr-dg-column>
+    <clr-dg-column [clrDgField]="'edit'"></clr-dg-column>
+    <clr-dg-column [clrDgField]="'delete'"></clr-dg-column>
+
+    <clr-dg-row *clrDgItems="let location of locationService.locations | async">
+      <clr-dg-cell>{{location.id}}</clr-dg-cell>
+      <clr-dg-cell><a [routerLink]="['/stores/edit', location.id]" routerLinkActive="active">{{location.name}}</a></clr-dg-cell>
+      <clr-dg-cell >{{location.store_code}}</clr-dg-cell>
+      <clr-dg-cell >{{location.address.street}}</clr-dg-cell>
+      <clr-dg-cell >{{location.address.city}}</clr-dg-cell>
+      <clr-dg-cell >{{location.address.state}}</clr-dg-cell>
+      <clr-dg-cell >{{location.address.zip}}</clr-dg-cell>
+      <clr-dg-cell >{{location.phone.area_code}}-{{location.phone.number}}</clr-dg-cell>
+      <clr-dg-cell><button class="btn btn-primary btn-sm" [routerLink]="['/stores/edit', location.id]" routerLinkActive="true">Edit</button></clr-dg-cell>
+      <clr-dg-cell><button class="btn btn-danger btn-sm" [routerLink]="['/stores/delete', location.id]" routerLinkActive="true">Delete</button></clr-dg-cell>
+    </clr-dg-row>
+    <clr-dg-footer *ngIf="(locationService.locations | async)">{{(locationService.locations | async) ? (locationService.locations | async).length : 0 }} Locations</clr-dg-footer>
+  </clr-datagrid>
+</div>
+<ng-template #loading>
+  <clr-spinner class="spinner">Loading...</clr-spinner>
+</ng-template>

@@ -1,25 +1,30 @@
 import { Component, OnInit } from '@angular/core';
-import {AbstractControl, FormBuilder, FormGroup} from "@angular/forms";
 import {Location} from "../../Types/Location";
-import {ActivatedRoute, Router} from "@angular/router";
+import {Observable} from "rxjs";
+import {Items} from "../../Types/items";
+import {AbstractControl, FormBuilder, FormGroup} from "@angular/forms";
 import {LocationServiceService} from "../../services/location-service/location-service.service";
+import {ActivatedRoute} from "@angular/router";
+import {ItemService} from "../../services/item-service/item-service.service";
 
 @Component({
-  selector: 'app-location-add',
-  templateUrl: './location-add.component.html',
-  styleUrls: ['./location-add.component.css']
+  selector: 'app-location-add-items',
+  templateUrl: './location-add-items.component.html',
+  styleUrls: ['./location-add-items.component.css']
 })
-export class LocationAddComponent implements OnInit {
+export class LocationAddItemsComponent implements OnInit {
   location: Location = new Location();
-  locationAdd: FormGroup;
+  items: Observable<Items[]>;
+  locationAddItem: FormGroup;
   submitted: boolean = false;
   error: boolean = false;
   constructor(private fb: FormBuilder,
               private locationService: LocationServiceService,
               private route: ActivatedRoute,
-              private router: Router
+              private itemService: ItemService
   ) {
-    this.locationAdd = this.fb.group(this.location);
+    this.locationAddItem = this.fb.group(this.location);
+    this.items = this.itemService.getItems();
   }
 
   ngOnInit(): void {
@@ -27,14 +32,20 @@ export class LocationAddComponent implements OnInit {
   }
 
   buildForm() {
-    this.locationAdd = this.fb.group({
+    let name: string;
+    name = '';
+
+    this.locationAddItem = this.fb.group({
       name: this.fb.control(''),
+      count: this.fb.control(0),
       store_code: this.fb.control(''),
       address: this.addAddress(),
       phone: this.addPhone(),
+      items: this.fb.control('')
     })
     this.addAddress();
     this.addPhone()
+    console.log(this.locationAddItem);
   }
 
   addAddress(): AbstractControl {
@@ -55,32 +66,28 @@ export class LocationAddComponent implements OnInit {
   }
 
   get locationAddress() {
-    return this.locationAdd.get('address');
+    return this.locationAddItem.get('address');
   }
 
   get locationPhone() {
-    return this.locationAdd.get('phone');
+    return this.locationAddItem.get('phone');
   }
   resetForm() {
     this.buildForm();
   }
-
-  saveComplete(saveStore: Location) {
-    // @ts-ignore
-    this.router.navigate(['/stores', {store: saveStore.id}])
-  }
-  submit(){
-    console.log(this.locationAdd.value);
-    if (this.locationAdd.valid && this.locationAdd.dirty) {
-      console.log(this.locationAdd);
+  submit() {
+    let savedStore: Location;
+    console.log(this.locationAddItem.value);
+    if (this.locationAddItem.valid && this.locationAddItem.dirty) {
+      console.log(this.locationAddItem);
       this.submitted = true;
       this.error = false;
-      this.locationService.addLocation(this.locationAdd.value)
+      this.locationService.addLocation(this.locationAddItem.value)
         .subscribe(store => {
+          // savedStore = store;
           console.log(store);
-          // @ts-ignore
-          this.saveComplete(store);
         })
+      this.locationAddItem.reset()
     } else {
       this.submitted = false;
       this.error = true;

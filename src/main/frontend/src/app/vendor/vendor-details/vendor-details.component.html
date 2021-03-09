@@ -1,6 +1,11 @@
 <div [hidden]="!submitted" class="alert alert-success">
   {{vendor}} was added successfully!
 </div>
+<div class="header-actions">
+  <a routerLink="/vendor/add" routerLinkActive="active" class="nav-link nav-icon" aria-label="settings">
+    <clr-icon shape="plus"></clr-icon>
+  </a>
+</div>
 <clr-datagrid>
   <clr-dg-column>Vendor Id</clr-dg-column>
   <clr-dg-column>Vendor Name</clr-dg-column>

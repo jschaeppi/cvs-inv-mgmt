@@ -4,7 +4,7 @@
       <input clrInput type="text" id="itemName" formControlName="name" placeholder="ex. Jif Peanut Butter" required />
       <clr-control-error minlength="1" >Please enter an item name</clr-control-error>
     </clr-input-container>
-  <clr-select-container formGroupName="cat3">
+  <clr-select-container formGroupName="cat3" *ngIf="itemLevel">
     <label for="itemCategory" class="clr-control-label">Item Level Category:</label>
     <select clrSelect
             class="clr-form-control"
@@ -16,7 +16,7 @@
       <clr-control-error ></clr-control-error>
     </select>
   </clr-select-container>
-  <clr-select-container formGroupName="vendor">
+  <clr-select-container formGroupName="vendor" *ngIf="itemVendor">
     <label for="itemVendor" class="clr-control-label">Vendor:</label>
     <select clrSelect
             class="clr-form-control"

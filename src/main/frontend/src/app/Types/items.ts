@@ -1,59 +1,15 @@
 import {ItemsInterface} from "./Interface/itemsInterface";
+import {Cat3} from "./cat3";
+import {Vendor} from "./Vendor";
 
 export class Items implements ItemsInterface {
-  public id = 0;
-  public version = 0;
-  public name = '';
-  public description = '';
-  public sku = '';
-  public price = 0;
-  public cat3_id = 0;
-  vendor ={
-    address: {
-      city: '',
-      id: 0,
-      state: '',
-      street: '',
-      street2: '',
-      version: 0,
-      zip: 0,
-    },
-    id: 0,
-    name: '',
-    phone: {
-      area_code: 0,
-      id: 0,
-      number: 0,
-      version: 0,
-    },
-    version: 0,
-  };
-  location = {
-    address: {
-      city: '',
-      id: 0,
-      state: '',
-      street: '',
-      street2: '',
-      version: 0,
-      zip: 0,
-
-    },
-    id: 0,
-    phone: {
-      area_code: 0,
-      id: 0,
-      number: 0,
-      version: 0,
-    },
-    store_code: '',
-    version: 0,
-  };
-    cat3 = {
-      id: 0,
-      version: 0,
-      catName: '',
-      cat2: {},
-    }
+  id = 0;
+  version = 0;
+  name = '';
+  description = '';
+  sku = '';
+  price = 0;
+  vendor = new Vendor();
+  cat3 = new Cat3();
 }
 

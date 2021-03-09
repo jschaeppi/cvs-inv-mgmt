@@ -1,4 +1,4 @@
-<div [hidden] ="!itemAddForm.valid" class="alert alert-danger">
+<div [hidden] ="!error" class="alert alert-danger">
 Form couldn't be submitted.  Review errors
 </div>
 <div [hidden]="!submitted" class="alert alert-success">
@@ -9,18 +9,28 @@ Form couldn't be submitted.  Review errors
     <label for="itemName" class="clr-control-label">Item Name:</label>
     <input clrInput type="text" id="itemName" formControlName="name" placeholder="ex. Jif Peanut Butter" required />
   </clr-input-container>
-  <clr-select-container>
-    <label for="itemCategory" class="clr-control-label">Item Level Category:</label>
+  <clr-select-container formGroupName="cat3" *ngIf="itemLevel">
+    <label for="itemLevel" class="clr-control-label">Item Level Category:</label>
     <select clrSelect
             class="clr-form-control"
-            id="itemCategory"
-            formControlName="cat3_id"
-            clrLayout="vertical"
-            responsive="true"
-            validate="true"
-            (change)="updateModel()"
+            id="itemLevel"
+            formControlName="id"
+            (change)="updateItemCat(itemAddForm.get('cat3').value.id)"
             required >
-      <option name="id" value="{{item.id}}" *ngFor="let item of itemLevel">{{item.catName}}</option>
+      <option name="id" value="{{item.id}}" *ngFor="let item of itemLevel | async">{{item.catName}}</option>
+      <clr-control-error ></clr-control-error>
+    </select>
+  </clr-select-container>
+  <clr-select-container formGroupName="vendor" *ngIf="itemAddForm">
+    <label for="itemVendor" class="clr-control-label">Vendor:</label>
+    <select clrSelect
+            class="clr-form-control"
+            id="itemVendor"
+            formControlName="id"
+            (change)="updateItemVendor(itemAddForm.get('vendor').value.id)"
+            required >
+      <option name="id" value="{{vendor.id}}" *ngFor="let vendor of itemVendor | async">{{vendor.name}}</option>
+      <clr-control-error ></clr-control-error>
     </select>
   </clr-select-container>
   <clr-textarea-container>
