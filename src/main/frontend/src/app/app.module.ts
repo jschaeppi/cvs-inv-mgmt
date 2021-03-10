@@ -23,6 +23,7 @@ import { InvItemDetailsComponent } from './inv/inv-item-details/inv-item-details
 import { VendorEditComponent } from './vendor/vendor-edit/vendor-edit.component';
 import {PhoneNumPipe} from "./common/phoneNumPipe";
 import { LocationAddItemsComponent } from './location/location-add-items/location-add-items.component';
+import { LocationListComponent } from './location/location-list/location-list.component';
 
 @NgModule({
   declarations: [
@@ -40,7 +41,8 @@ import { LocationAddItemsComponent } from './location/location-add-items/locatio
     InvItemDetailsComponent,
     VendorEditComponent,
     PhoneNumPipe,
-    LocationAddItemsComponent
+    LocationAddItemsComponent,
+    LocationListComponent
   ],
   imports: [
     BrowserModule,

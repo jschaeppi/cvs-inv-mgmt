@@ -25,7 +25,7 @@ public class LocationServiceImpl implements LocationService {
     @Override
     public List<Location> listAllLocations() {
         List<Location> locationList = new ArrayList<>();
-         locationRepository.findAll().iterator().forEachRemaining(locationList::add);
+         locationRepository.findLocationsByDisabledFalse().iterator().forEachRemaining(locationList::add);
          return locationList;
     }
 
@@ -51,13 +51,14 @@ public class LocationServiceImpl implements LocationService {
 
     //DELETE A LOCATION
     @Override
-    public boolean deleteLocation(Integer id) {
+    public int deleteLocation(Location location) {
         try {
-            locationRepository.deleteById(id);
-            return true;
+            System.out.println("Deleting location " + location.getName());
+            locationRepository.deleteById(location.getId());
+            return 1;
         } catch (Exception ex) {
             log.warn("DELETION FAILED " + ex);
-            return false;
+            return 0;
         }
     }
 }

@@ -23,6 +23,7 @@ public class Location {
 
     private String store_code;
     private String name;
+    private boolean disabled;
 
 
     @OneToOne(cascade = CascadeType.ALL)
@@ -118,6 +119,18 @@ public class Location {
     }
 
     public void setItemList(List<Items> itemsList) {
+        this.itemsList = itemsList;
+    }
+
+    public boolean getDisabled() {
+        return disabled;
+    }
+
+    public void setDisabled(boolean disabled) {
+        this.disabled = disabled;
+    }
+
+    public void setItemsList(List<Items> itemsList) {
         this.itemsList = itemsList;
     }
 

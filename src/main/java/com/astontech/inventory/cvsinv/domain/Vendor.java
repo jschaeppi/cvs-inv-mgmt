@@ -21,6 +21,7 @@ public class Vendor {
     private Integer version;
 
     private String name;
+    private boolean disabled;
 
     @OneToMany(cascade = CascadeType.ALL, mappedBy = "vendor")
     @JsonIgnore
@@ -91,6 +92,14 @@ public class Vendor {
 
     public void setPhone(Phone phone) {
         this.phone = phone;
+    }
+
+    public boolean getDisabled() {
+        return disabled;
+    }
+
+    public void setDisabled(boolean disabled) {
+        this.disabled = disabled;
     }
 
     //endregion

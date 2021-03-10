@@ -1,7 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import {AbstractControl, FormArray, FormBuilder, FormGroup} from "@angular/forms";
 import {Vendor} from "../../Types/Vendor";
-import {ActivatedRoute} from "@angular/router";
+import {ActivatedRoute, Router} from "@angular/router";
 import {VendorService} from "../../services/vendor-service/vendor-service.service";
 
 @Component({
@@ -15,7 +15,11 @@ export class VendorAddComponent implements OnInit {
   submitted: boolean = false;
   error: boolean = false;
 
-  constructor(private fb: FormBuilder, private vendorService: VendorService, private route: ActivatedRoute) {
+  constructor(private fb: FormBuilder,
+              private vendorService: VendorService,
+              private route: ActivatedRoute,
+              private router: Router
+  ) {
     this.vendorAdd = this.fb.group(this.vendor)
   }
 
@@ -70,6 +74,10 @@ export class VendorAddComponent implements OnInit {
   resetForm() {
     this.buildForm();
   }
+
+  saveComplete(savedVendor: Vendor) {
+    this.router.navigate(['/vendor/', {vendor: savedVendor.name}])
+  }
   submit() {
     let savedVendor: Vendor;
     if (this.vendorAdd.valid) {
@@ -78,6 +86,7 @@ export class VendorAddComponent implements OnInit {
         this.vendorService.addVendor(this.vendorAdd.value)
            .subscribe(vendor => {
              savedVendor = vendor;
+             this.saveComplete(savedVendor)
              console.log(savedVendor);
            })
       // this.vendorAdd.reset();

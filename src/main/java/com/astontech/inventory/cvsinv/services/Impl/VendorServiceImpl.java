@@ -25,7 +25,7 @@ public class VendorServiceImpl implements VendorService {
     @Override
     public List<Vendor> listAllVendors() {
         List<Vendor> vendorList = new ArrayList<>();
-        vendorRepository.findAll().iterator().forEachRemaining(vendorList::add);
+        vendorRepository.findVendorsByDisabledFalse().iterator().forEachRemaining(vendorList::add);
         return vendorList;
     }
 

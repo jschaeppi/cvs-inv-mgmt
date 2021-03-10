@@ -10,6 +10,7 @@ import {error} from "@angular/compiler/src/util";
 })
 export class VendorService {
 
+  vendorList: Observable<Vendor[]> = of();
   constructor(private http: HttpClient) { }
 
   //region GET REQUESTS

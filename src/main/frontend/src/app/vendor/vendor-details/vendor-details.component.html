@@ -1,27 +1,74 @@
-<div [hidden]="!submitted" class="alert alert-success">
-  {{vendor}} was added successfully!
+<div [hidden]="!submitted" id="success" class="alert alert-success">
+  {{savedVendor}} was added successfully!
 </div>
 <div class="header-actions">
   <a routerLink="/vendor/add" routerLinkActive="active" class="nav-link nav-icon" aria-label="settings">
     <clr-icon shape="plus"></clr-icon>
   </a>
 </div>
-<clr-datagrid>
-  <clr-dg-column>Vendor Id</clr-dg-column>
-  <clr-dg-column>Vendor Name</clr-dg-column>
-  <clr-dg-column>Vendor Address</clr-dg-column>
-  <clr-dg-column>Vendor Phone</clr-dg-column>
+<clr-datagrid [clrDgLoading]="((vendorList$ | async)?.length > 0) ? false : true">
+  <clr-dg-placeholder>No vendors found</clr-dg-placeholder>
+  <clr-dg-column [clrDgField]="'id'">ID</clr-dg-column>
+  <clr-dg-column [clrDgField]="'name'">
+    <ng-container *clrDgHideableColumn="{hidden: false}">
+    Vendor Name
+    </ng-container>
+  </clr-dg-column>
+  <clr-dg-column [clrDgField]="'address'" >
+    <ng-container *clrDgHideableColumn="{hidden: false}">
+    Vendor Address
+    </ng-container>
+  </clr-dg-column>
+  <clr-dg-column [clrDgField]="'phone'" >
+    <ng-container *clrDgHideableColumn="{hidden: false}">
+    Vendor Phone
+    </ng-container>
+  </clr-dg-column>
   <clr-dg-column></clr-dg-column>
   <clr-dg-column></clr-dg-column>
 
-  <clr-dg-row *ngFor="let vendor of vendorList | async">
-    <clr-dg-cell>{{vendor.id}}</clr-dg-cell>
-    <clr-dg-cell>{{vendor.name}}</clr-dg-cell>
-    <clr-dg-cell>{{vendor.address.street}} {{vendor.address.city}} {{vendor.address.state}}</clr-dg-cell>
-    <clr-dg-cell>{{vendor.phone.area_code}}-{{vendor.phone.number}}</clr-dg-cell>
-    <clr-dg-cell><button class="btn btn-primary btn-sm" [routerLink]="['edit', vendor.id]" routerLinkActive="true">Edit</button></clr-dg-cell>
-    <clr-dg-cell><button class="btn btn-danger btn-sm" [routerLink]="['delete', vendor.id]" routerLinkActive="true">Delete</button></clr-dg-cell>
+  <clr-dg-row *clrDgItems="let vendor of vendorList$ | async" [clrDgItem]="vendor" [(clrDgSelected)]="vendor.selected">
+    <clr-dg-cell>
+      {{vendor.id}}
+    </clr-dg-cell>
+    <clr-dg-cell>
+      {{vendor.name}}
+    </clr-dg-cell>
+    <clr-dg-cell>
+      {{vendor.address.street}} {{vendor.address.city}} {{vendor.address.state}}
+    </clr-dg-cell>
+    <clr-dg-cell>
+      {{vendor.phone.area_code}}-{{vendor.phone.number}}
+    </clr-dg-cell>
+    <clr-dg-cell>
+      <button class="btn btn-primary btn-sm" [routerLink]="['edit', vendor.id]" routerLinkActive="true">
+        Edit
+      </button>
+    </clr-dg-cell>
+    <clr-dg-cell>
+      <button class="btn btn-danger btn-sm" [routerLink]="['delete', vendor.id]" routerLinkActive="true">
+        Delete
+      </button>
+    </clr-dg-cell>
   </clr-dg-row>
-
-<!--  <clr-dg-footer>{{vendorList.}} vendors</clr-dg-footer>-->
+  <clr-dg-detail *clrIfDetail="let chosenVendor">
+    <clr-dg-detail-header>{{chosenVendor.name}}</clr-dg-detail-header>
+    <clr-dg-detail-body>
+      <h4>Store Address:</h4>
+      {{chosenVendor.address.street}}
+      <br />
+      {{chosenVendor.address.city}}, {{chosenVendor.address.state}} {{chosenVendor.address.zip}}
+      <h4>Store Phone:</h4>
+      ({{chosenVendor.phone.area_code}}) - {{chosenVendor.phone.number}}
+    </clr-dg-detail-body>
+  </clr-dg-detail>
+  <clr-dg-footer>
+    <!--TODO Figure out why it's not showing total vendors-->
+    <clr-dg-pagination #pagination [clrDgPageSize]="10">
+      <clr-dg-page-size [clrPageSizeOptions]="[10,20,50,100]">
+        {{pagination.firstItem + 1}} - {{pagination.lastItem + 1}}
+        of {{pagination.totalItems}} vendors
+      </clr-dg-page-size>
+    </clr-dg-pagination>
+  </clr-dg-footer>
 </clr-datagrid>

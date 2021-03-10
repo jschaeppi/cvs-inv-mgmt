@@ -11,22 +11,29 @@ import {VendorService} from "../../services/vendor-service/vendor-service.servic
 })
 export class VendorDetailsComponent implements OnInit {
   submittedVendor$: Observable<Params>;
-  vendor: string;
   submitted: boolean = false;
-  vendorList: Observable<Vendor[]>
+  savedVendor: string | null;
+  vendorList$: Observable<Vendor[]>
   constructor(private route: ActivatedRoute, private vendorService: VendorService) {
     this.submittedVendor$ = this.route.params;
-    this.vendor = '';
-    this.vendorList = this.getVendors();
-
+    this.vendorList$ = this.getVendors();
+    this.savedVendor = this.route.snapshot.paramMap.get('vendor');
   }
 
   ngOnInit(): void {
-    if (this.vendor) {
+    if (this.savedVendor) {
       this.submitted = true;
+      this.successMsg();
     }
   }
 
+  successMsg() {
+    window.setTimeout((success: boolean) => {
+      {
+        this.submitted = false;
+      }
+    }, 5000)
+  }
   getVendors() : Observable<Vendor[]>{
     return this.vendorService.getVendors();
   }

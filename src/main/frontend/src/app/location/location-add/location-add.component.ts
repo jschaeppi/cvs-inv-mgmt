@@ -67,7 +67,7 @@ export class LocationAddComponent implements OnInit {
 
   saveComplete(saveStore: Location) {
     // @ts-ignore
-    this.router.navigate(['/stores', {store: saveStore.id}])
+    this.router.navigate(['/stores', {id: saveStore.id, store: saveStore.name}])
   }
   submit(){
     console.log(this.locationAdd.value);

@@ -10,7 +10,7 @@
       <clr-icon shape="plus"></clr-icon>
     </a>
   </div>
-  <clr-datagrid>
+  <clr-datagrid [clrDgLoading]="fetchingInformation">
     <clr-dg-column>Item ID</clr-dg-column>
     <clr-dg-column [clrDgField]="'itemsName'">Item</clr-dg-column>
     <clr-dg-column [clrDgField]="'itemDescription'">Description</clr-dg-column>
@@ -28,9 +28,9 @@
       <clr-dg-cell>{{item.price ? item.price : "No Price"}}</clr-dg-cell>
       <clr-dg-cell>{{item.cat3 ? item.cat3.catName : "Uncategorized"}}</clr-dg-cell>
       <clr-dg-cell><button class="btn btn-primary btn-sm" [routerLink]="['/inv/item/edit', item.id]" routerLinkActive="true">Edit</button></clr-dg-cell>
-      <clr-dg-cell><button class="btn btn-danger btn-sm" [routerLink]="['/inv/item/delete', item.id]" routerLinkActive="true">Delete</button></clr-dg-cell>
+      <clr-dg-cell><button class="btn btn-danger btn-sm" (click)="deleteItem(item)" routerLinkActive="true">Delete</button></clr-dg-cell>
     </clr-dg-row>
-    <clr-dg-footer *ngIf="(items | async)">{{(items | async) ? (items | async).length : 0 }} Items</clr-dg-footer>
+    <clr-dg-footer *ngIf="(items | async)">{{(items | async) ? (items | async)?.length : 0 }} Items</clr-dg-footer>
   </clr-datagrid>
 </div>
 <ng-template #loading>

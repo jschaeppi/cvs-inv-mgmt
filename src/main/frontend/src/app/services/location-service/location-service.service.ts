@@ -2,27 +2,29 @@ import { Injectable } from '@angular/core';
 import {HttpClient} from "@angular/common/http";
 import {Observable, of} from "rxjs";
 import {Location} from "../../Types/Location";
+import {Router} from "@angular/router";
 
 @Injectable({
   providedIn: 'root'
 })
 export class LocationServiceService {
 
-  public locations: Observable<Location> = of();
+  public locations$: Observable<Location[]> = of();
   public location: Location = new Location();
-  constructor(private http: HttpClient) { }
+  constructor(private http: HttpClient, private router: Router) { }
 
-  locationDetails(locationId?: number) {
-    if (locationId) {
+  locationDetails(locationId: number) {
       this.getLocation(locationId)
         .subscribe(location => {
           this.location = location;
         })
-      console.log(this.locations);
-    } else {
-      this.locations = this.getLocations();
-    }
   }
+
+  locationList() {
+    this.locations$ = this.getLocations();
+  }
+
+
   //region GET REQUESTS
   getLocations() : Observable<Location[]> {
     return this.http.get<Location[]>('/api/location/');
@@ -32,11 +34,9 @@ export class LocationServiceService {
     return this.http.get<Location>('/api/location/'+ id);
   }
 
-  deleteLocation(id: number) : boolean {
-    if (this.http.delete('/api/location/' + id)) {
-      return true;
-    }
-    return false;
+  deleteLocation(location: Location) : Observable<Location>{
+    console.log('Deleting location ' + location.name);
+    return this.http.put<Location>('/api/location/delete/', location);
   }
   //endregion
 

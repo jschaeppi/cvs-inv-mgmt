@@ -1,6 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import {HttpClient} from "@angular/common/http";
-import {Observable} from "rxjs";
+import {Observable, of} from "rxjs";
 import {Items} from "../../Types/items";
 import {ActivatedRoute, Event, NavigationEnd, NavigationStart, Router} from "@angular/router";
 import {ItemService} from "../../services/item-service/item-service.service";
@@ -11,38 +11,32 @@ import {ItemService} from "../../services/item-service/item-service.service";
   styleUrls: ['./inv-item-table.component.css']
 })
 export class InvItemTableComponent implements OnInit {
-  items: Observable<Items[]>;
+  items: Observable<Items[]> = of();
   itemCatName: string | null = '';
   fetchingInformation: boolean = false;
   errorStatus: boolean = false;
 
-  constructor(private http: HttpClient, private routeParam: ActivatedRoute, private route: Router, private itemService: ItemService) {
-    this.route.events.subscribe(event => {
-      this.routeChange(event);
-    })
-    this.items = this.loadItems();
-    if (this.items == null) {
-      this.fetchingInformation = false;
-      this.errorStatus = true;
-    } else {
-      this.fetchingInformation = false;
-      this.errorStatus = false;
-    }
-  }
+  constructor(private http: HttpClient,
+              private routeParam: ActivatedRoute,
+              private route: Router,
+              private itemService: ItemService) {}
 
   ngOnInit(): void {
-
+    this.itemCatName = this.routeParam.snapshot.paramMap.get('catName');
+    this.errorStatus = false;
+    this.items = this.loadItems();
+    this.fetchingInformation = false;
   }
 
-  routeChange(event: Event) {
-    if (event instanceof NavigationStart) {
-      this.fetchingInformation = true;
-
-    } else if (event instanceof NavigationEnd) {
-      this.itemCatName = this.routeParam.snapshot.paramMap.get("catName");
-      this.errorStatus = false;
-      this.items = this.loadItems();
-    }
+  deleteItem(item: Items) {
+    alert('Are you sure you want to delete item ' + item.name);
+    this.itemService.deleteItem(item)
+      .subscribe(success => {
+        if (success) {
+          console.log('Deletion successful');
+          this.ngOnInit();
+        }
+      })
   }
 
   loadItems(): Observable<Items[]> {

@@ -67,9 +67,10 @@ public class ItemsRest {
     //endregion
 
     //region DELETE MAPPINGS
-    @DeleteMapping("/{id}")
-    public boolean deleteItem(@PathVariable int id) {
-        return itemsService.deleteItem(id);
+    @PutMapping("/delete/")
+    public int disableItem(@RequestBody Items item) {
+        System.out.println("Deleting Item " + item.getName());
+        return itemsService.deleteItem(item.getId());
     }
 
 

@@ -35,6 +35,7 @@ public class Items {
 
     private String sku;
     private double price;
+    private boolean disabled;
 
     @ManyToOne()
     private Cat3 cat3;
@@ -142,6 +143,14 @@ public class Items {
 
     public void setLocationList(List<Location> locationList) {
         this.locationList = locationList;
+    }
+
+    public boolean getDisabled() {
+        return disabled;
+    }
+
+    public void setDisabled(boolean disabled) {
+        this.disabled = disabled;
     }
 
     //endregion

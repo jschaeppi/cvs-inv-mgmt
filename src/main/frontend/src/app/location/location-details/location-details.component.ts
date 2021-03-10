@@ -1,10 +1,6 @@
 import { Component, OnInit } from '@angular/core';
-import {Observable} from "rxjs";
-import {Items} from "../../Types/items";
 import {HttpClient} from "@angular/common/http";
 import {ActivatedRoute, Event, NavigationEnd, NavigationStart, Router} from "@angular/router";
-import {ItemService} from "../../services/item-service/item-service.service";
-import {Location} from "../../Types/Location";
 import {LocationServiceService} from "../../services/location-service/location-service.service";
 
 @Component({
@@ -16,33 +12,48 @@ export class LocationDetailsComponent implements OnInit {
   fetchingInformation: boolean = false;
   errorStatus: boolean = false;
   address: string = '';
-  storeId: string | null = '';
+  storeId: string | null;
+  submitted: boolean = false;
+  savedLocation: string | null = '';
 
-  constructor(private http: HttpClient, private routeParam: ActivatedRoute, private route: Router, private itemService: ItemService, private locationService: LocationServiceService) {
-    this.route.events.subscribe(event => {
-      this.routeChange(event);
-    })
-
-/*    if (locationService.locations) {
-      this.address = locationService.locations.
-    }*/
-
+  constructor(private http: HttpClient,
+              private routeParam: ActivatedRoute,
+              private route: Router,
+              public locationService: LocationServiceService) {
+    this.savedLocation = this.routeParam.snapshot.paramMap.get('store');
+    this.storeId = this.routeParam.snapshot.paramMap.get('id')
   }
 
   ngOnInit(): void {
-    // this.locationService.getLocations();
+    if (this.savedLocation) {
+      this.submitted = true;
+      this.successMsg();
+    }
+    if (this.storeId) {
+      this.locationService.locationDetails(+this.storeId);
+    }
   }
 
+  successMsg() {
+    window.setTimeout((success: boolean) => {
+      {
+        this.submitted = false;
+      }
+    }, 5000)
+  }
+
+/*
   routeChange(event: Event) {
     if (event instanceof NavigationStart) {
       this.fetchingInformation = true;
-
     } else if (event instanceof NavigationEnd) {
-      this.storeId = this.routeParam.snapshot.paramMap.get("store");
+      this.storeId = this.routeParam.snapshot.paramMap.get("id");
+      this.savedLocation = this.routeParam.snapshot.paramMap.get('store')
+      this.submitted = true;
       this.errorStatus = false;
       if (this.storeId) {
         this.locationService.locationDetails(+this.storeId)
       }
     }
-  }
+  }*/
 }

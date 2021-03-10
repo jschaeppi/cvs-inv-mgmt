@@ -25,7 +25,7 @@ public class ItemsServiceImpl implements ItemsService {
     //FIND ALL ITEMS
     @Override
     public List<Items> listAllItems() {
-        return itemsRepository.listItems();
+        return itemsRepository.findItemsByDisabledFalse();
 
     }
 
@@ -57,13 +57,14 @@ public class ItemsServiceImpl implements ItemsService {
 
     //DELETE AN ITEM
     @Override
-    public boolean deleteItem(Integer id) {
+    public int deleteItem(Integer id) {
         try {
-            itemsRepository.deleteById(id);
-            return true;
+            System.out.println("Deleting Item " + id);
+            itemsRepository.disableById(id);
+            return 1;
         } catch(Exception ex) {
             log.warn("DELETED FAILED! " + ex);
-            return false;
+            return 0;
         }
     }
 }

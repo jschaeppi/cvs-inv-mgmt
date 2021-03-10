@@ -23,8 +23,8 @@ export class ItemService{
     return this.http.get<Items[]>('/api/items/cat/' + catName);
   }
 
-  deleteItem() : boolean{
-    return false;
+  deleteItem(item: Items) : Observable<Items>{
+    return this.http.put<Items>('/api/items/delete/', item);
   }
   //endregion
 

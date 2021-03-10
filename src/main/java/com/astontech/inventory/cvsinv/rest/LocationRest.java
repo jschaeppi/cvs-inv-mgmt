@@ -45,9 +45,9 @@ public class LocationRest {
     //endregion
 
     //region DELETE MAPPINGS
-    @DeleteMapping("/{id}")
-    public boolean deleteLocation(@PathVariable int id) {
-        return locationService.deleteLocation(id);
+    @PutMapping("/delete/")
+    public int deleteLocation(@RequestBody Location location) {
+        return locationService.deleteLocation(location);
     }
 
     //endregion

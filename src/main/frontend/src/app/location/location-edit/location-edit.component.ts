@@ -30,7 +30,6 @@ export class LocationEditComponent implements OnInit {
     if (this.locationId) {
       this.locationService.getLocation(+this.locationId)
         .subscribe(location => {
-          console.log(location);
           //@ts-ignore
           this.location = location;
           this.buildForm();

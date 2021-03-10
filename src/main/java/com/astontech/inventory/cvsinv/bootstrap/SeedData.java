@@ -54,6 +54,7 @@ public class SeedData implements ApplicationListener<ContextRefreshedEvent> {
         Items beverage = new Items("Coca Cola Classic, 2L",
                 "941088",
                 2.29, cat3Service.findCat3(2));
+        beverage.setDisabled(true);
         itemsList.add(beverage);
         Items medicine = new Items("CVS Health Ibuprofen Softgels, 200 mg",
                 "213634", 14.79);
