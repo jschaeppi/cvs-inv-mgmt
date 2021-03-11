@@ -18,5 +18,5 @@ public interface LocationRepository extends CrudRepository<Location, Integer> {
     @Query("UPDATE Location " +
             "SET disabled = '1' " +
             "WHERE id = :id")
-    int disableLocationById(@PathVariable int id);
+    Integer disableLocationById(@PathVariable int id);
 }

@@ -51,9 +51,8 @@ public class LocationServiceImpl implements LocationService {
 
     //DELETE A LOCATION
     @Override
-    public int deleteLocation(Location location) {
+    public Integer deleteLocation(Location location) {
         try {
-            System.out.println("Deleting location " + location.getName());
             locationRepository.deleteById(location.getId());
             return 1;
         } catch (Exception ex) {

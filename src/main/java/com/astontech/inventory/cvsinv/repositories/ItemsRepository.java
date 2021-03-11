@@ -25,7 +25,7 @@ public interface ItemsRepository extends CrudRepository<Items, Integer> {
             "JOIN FETCH Cat3 c3 on i.cat3.id = c3.id " +
             "JOIN FETCH Cat2 c2 on c3.cat2.id = c2.id " +
             "JOIN FETCH Cat1 c1 on c2.cat1.id = c1.id " +
-            "WHERE c3.catName = :name")
+            "WHERE c3.catName = :name AND i.disabled = false")
     List<Items> listItemsByCat3Name(@PathVariable String name);
 
     List<Items> findItemsByDisabledFalse();

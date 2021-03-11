@@ -11,29 +11,43 @@ import {ItemService} from "../../services/item-service/item-service.service";
   styleUrls: ['./inv-item-table.component.css']
 })
 export class InvItemTableComponent implements OnInit {
-  items: Observable<Items[]> = of();
-  itemCatName: string | null = '';
+  items$: Observable<Items[]> = of();
+  itemCatName: string | null;
   fetchingInformation: boolean = false;
   errorStatus: boolean = false;
 
   constructor(private http: HttpClient,
               private routeParam: ActivatedRoute,
               private route: Router,
-              private itemService: ItemService) {}
+              private itemService: ItemService) {
+    this.itemCatName = this.routeParam.snapshot.paramMap.get('catName');
+      this.route.events.subscribe(event => {
+        this.routeChange(event);
+    })
+  }
 
   ngOnInit(): void {
-    this.itemCatName = this.routeParam.snapshot.paramMap.get('catName');
     this.errorStatus = false;
-    this.items = this.loadItems();
+    this.items$ = this.loadItems();
     this.fetchingInformation = false;
   }
 
+  routeChange(event: Event) {
+    if (event instanceof NavigationStart) {
+      this.fetchingInformation = true;
+
+    } else if (event instanceof NavigationEnd) {
+      this.itemCatName = this.routeParam.snapshot.paramMap.get("catName");
+      this.errorStatus = false;
+      this.items$ = this.loadItems();
+      this.fetchingInformation = false;
+    }
+  }
   deleteItem(item: Items) {
-    alert('Are you sure you want to delete item ' + item.name);
+    // alert('Are you sure you want to delete item ' + item.name);
     this.itemService.deleteItem(item)
       .subscribe(success => {
-        if (success) {
-          console.log('Deletion successful');
+        if (success == 1) {
           this.ngOnInit();
         }
       })

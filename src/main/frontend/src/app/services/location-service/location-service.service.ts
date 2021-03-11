@@ -11,7 +11,10 @@ export class LocationServiceService {
 
   public locations$: Observable<Location[]> = of();
   public location: Location = new Location();
-  constructor(private http: HttpClient, private router: Router) { }
+  public testLocation: Location;
+  constructor(private http: HttpClient, private router: Router) {
+    this.testLocation = new Location();
+  }
 
   locationDetails(locationId: number) {
       this.getLocation(locationId)
@@ -34,15 +37,13 @@ export class LocationServiceService {
     return this.http.get<Location>('/api/location/'+ id);
   }
 
-  deleteLocation(location: Location) : Observable<Location>{
-    console.log('Deleting location ' + location.name);
-    return this.http.put<Location>('/api/location/delete/', location);
+  deleteLocation(location: Location) : Observable<number>{
+    return this.http.put<number>('/api/location/delete/', location);
   }
   //endregion
 
   //region PUT/POST REQUESTS
   addLocation(location: Location) : Observable<Location>{
-    console.log(location);
     return this.http.post<Location>('/api/location/', location);
   }
 

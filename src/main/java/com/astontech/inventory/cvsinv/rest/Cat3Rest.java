@@ -21,8 +21,12 @@ public class Cat3Rest {
 
     //region GET MAPPINGS
     @GetMapping("/")
-    public List<Cat3> getCat3s() {
-        return cat3Service.listAllCat3();
+    public ResponseEntity<List<Cat3>> getCat3s() {
+        List<Cat3> cat3List = cat3Service.listAllCat3();
+        if (cat3List.size() == 0) {
+            return ResponseEntity.status(HttpStatus.NOT_FOUND).body(null);
+        }
+        return ResponseEntity.status(200).body(cat3List);
     }
 
     @GetMapping("/{id}")
@@ -53,15 +57,31 @@ public class Cat3Rest {
     //region SAVE MAPPINGS
 
     @PostMapping("/")
-    public Cat3 saveCat3(@RequestBody Cat3 cat3) {
-        return cat3Service.saveCat3(cat3);
+    public ResponseEntity<Cat3> saveCat3(@RequestBody Cat3 cat3) {
+       Cat3 savedCat3 = cat3Service.saveCat3(cat3);
+       if (savedCat3 == null) {
+           return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body(null);
+       }
+       return ResponseEntity.status(201).body(savedCat3);
     }
 
+    @PutMapping("/")
+    public ResponseEntity<Cat3> updatedCat3(@RequestBody Cat3 cat3) {
+        Cat3 updatedCat3 = cat3Service.saveCat3(cat3);
+        if (updatedCat3 == null) {
+            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body(null);
+        }
+        return ResponseEntity.status(200).body(updatedCat3);
+    }
     //endregion
     //region DELETE MAPPINGS
-    @DeleteMapping("/{id}")
-    public boolean deletCat3(@PathVariable int id) {
-        return cat3Service.deleteCat3(id);
+    @DeleteMapping("/delete/")
+    public ResponseEntity<Integer> deletCat3(@RequestBody Cat3 cat3) {
+        Integer success = cat3Service.deleteCat3(cat3);
+        if (success == 0) {
+            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body(0);
+        }
+        return ResponseEntity.status(200).body(1);
     }
     //endregion
 }

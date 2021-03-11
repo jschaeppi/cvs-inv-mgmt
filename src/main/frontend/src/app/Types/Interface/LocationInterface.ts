@@ -8,6 +8,7 @@ export interface LocationInterface {
   store_code: string,
   count?: number,
   name: string,
+  disabled: boolean,
   address?: AddressInterface,
   phone?: PhoneInterface,
   itemsList?: ItemsInterface

@@ -25,13 +25,26 @@ export class LocationDetailsComponent implements OnInit {
   }
 
   ngOnInit(): void {
+    this.fetchingInformation = false;
     if (this.savedLocation) {
       this.submitted = true;
       this.successMsg();
+    } else {
+      if (this.storeId != null) {
+        this.locationService.locationDetails(+this.storeId);
+      }
     }
-    if (this.storeId) {
-      this.locationService.locationDetails(+this.storeId);
-    }
+  }
+
+  deleteLocation(location: any) {
+    //@ts-ignore
+    this.locationService.deleteLocation(location)
+      .subscribe(success => {
+        console.log(success);
+        if (success == 1) {
+          this.route.navigateByUrl('/stores')
+        }
+      })
   }
 
   successMsg() {

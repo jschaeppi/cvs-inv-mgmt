@@ -22,11 +22,8 @@ export class VendorService {
     return this.http.get<Vendor>('/api/vendor/'+ id);
   }
 
-  deleteVendor(id: number) : boolean {
-    if (this.http.delete('/api/vendor/' + id)) {
-      return true;
-    }
-    return false;
+  deleteVendor(vendor: Vendor) : Observable<number> {
+    return this.http.put<number>('/api/vendor/delete/', vendor)
   }
 //endregion
 

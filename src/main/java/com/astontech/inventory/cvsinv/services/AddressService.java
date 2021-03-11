@@ -14,5 +14,5 @@ public interface AddressService {
 
     List<Address> saveAddressList(Iterable<Address> addressIterable);
 
-    boolean deleteAddress(Integer id);
+    Integer disableAddress(Address address);
 }

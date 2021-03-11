@@ -57,10 +57,9 @@ public class ItemsServiceImpl implements ItemsService {
 
     //DELETE AN ITEM
     @Override
-    public int deleteItem(Integer id) {
+    public Integer deleteItem(Items item) {
         try {
-            System.out.println("Deleting Item " + id);
-            itemsRepository.disableById(id);
+            itemsRepository.disableById(item.getId());
             return 1;
         } catch(Exception ex) {
             log.warn("DELETED FAILED! " + ex);

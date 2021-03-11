@@ -17,6 +17,6 @@ public interface ItemsService {
 
     List<Items> saveItems(Iterable<Items> itemsIterable);
 
-    int deleteItem(Integer id);
+    Integer deleteItem(Items items);
 
 }

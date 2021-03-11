@@ -21,6 +21,7 @@ public class Cat3 {
     @Version
     private Integer version;
 
+    private boolean disabled;
     private String catName;
 
     @ManyToOne()
@@ -84,6 +85,13 @@ public class Cat3 {
         this.cat3Id = itemsList;
     }
 
+    public boolean isDisabled() {
+        return disabled;
+    }
+
+    public void setDisabled(boolean disabled) {
+        this.disabled = disabled;
+    }
 
     //endregion
 }

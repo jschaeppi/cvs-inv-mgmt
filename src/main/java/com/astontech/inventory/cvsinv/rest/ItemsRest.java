@@ -27,8 +27,13 @@ public class ItemsRest {
 
     //region GET MAPPINGS
     @GetMapping("/")
-    public List<Items> getItems() {
-        return itemsService.listAllItems();
+    public ResponseEntity<List<Items>> getItems() {
+
+        List<Items> itemsList = itemsService.listAllItems();
+        if (itemsList.size() == 0) {
+            return ResponseEntity.status(HttpStatus.NOT_FOUND).body(null);
+        }
+        return ResponseEntity.ok().body(itemsList);
     }
 
     @GetMapping("/{id}")
@@ -54,23 +59,35 @@ public class ItemsRest {
     //region SAVE MAPPINGS
 
     @PostMapping("/")
-    public Items saveItem(@RequestBody Items item) {
-        return itemsService.saveItem(item);
+    public ResponseEntity<Items> saveItem(@RequestBody Items item) {
+        Items fetchedItem = itemsService.saveItem(item);
+        if (fetchedItem == null) {
+            return ResponseEntity.status(HttpStatus.NOT_FOUND).body(null);
+        }
+        return ResponseEntity.status(201).body(fetchedItem);
     }
 
     //region UPDATE MAPPING
     @PutMapping("/")
-    public Items updateItem(@RequestBody Items item) {
+    public ResponseEntity<Items> updateItem(@RequestBody Items item) {
         cat3Service.saveCat3(item.getCat3());
-        return itemsService.saveItem(item);
+        Items updatedItem = itemsService.saveItem(item);
+        if (updatedItem == null) {
+            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body(null);
+        }
+        return ResponseEntity.status(200).body(updatedItem);
     }
     //endregion
 
     //region DELETE MAPPINGS
     @PutMapping("/delete/")
-    public int disableItem(@RequestBody Items item) {
-        System.out.println("Deleting Item " + item.getName());
-        return itemsService.deleteItem(item.getId());
+    public ResponseEntity<Integer> disableItem(@RequestBody Items item) {
+        Integer success = itemsService.deleteItem(item);
+        System.out.println(success);
+        if (success == 0) {
+            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body(success);
+        }
+        return ResponseEntity.status(200).body(success);
     }
 
 

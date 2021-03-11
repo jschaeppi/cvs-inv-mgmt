@@ -9,7 +9,7 @@
       <a routerLink="/stores/add" routerLinkActive="active" class="nav-link nav-icon" aria-label="settings">
         <clr-icon shape="plus"></clr-icon>
       </a>
-  <clr-datagrid *ngIf="!storeId">
+  <clr-datagrid *ngIf="!storeId" [clrDgLoading]="fetchingInformation">
     <clr-dg-placeholder>No Locations Found!</clr-dg-placeholder>
     <clr-dg-column>ID</clr-dg-column>
     <clr-dg-column [clrDgField]="'name'">

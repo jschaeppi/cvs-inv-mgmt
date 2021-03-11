@@ -129,6 +129,9 @@ export class InvItemAddComponent implements OnInit {
     this.itemAddForm.reset();
   }
 
+  saveComplete(item: Items) {
+    this.router.navigateByUrl('/inv');
+  }
   //POSTING FORM
   submit() {
     if (this.itemAddForm.valid && this.itemAddForm.dirty) {
@@ -138,6 +141,7 @@ export class InvItemAddComponent implements OnInit {
               this.error = false;
               this.submittedItem = result.name;
               this.itemAddForm.reset();
+              this.saveComplete(result);
             },
             error => {
               console.log(error);

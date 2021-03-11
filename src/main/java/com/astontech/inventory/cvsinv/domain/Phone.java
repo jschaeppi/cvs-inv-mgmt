@@ -22,6 +22,8 @@ public class Phone {
     private int area_code;
     private int number;
 
+    private boolean disabled;
+
     @OneToOne(mappedBy = "phone")
     @JsonIgnore
     private Vendor vendor;
@@ -93,5 +95,14 @@ public class Phone {
         this.location = location;
     }
 
-//endregion
+    public boolean isDisabled() {
+        return disabled;
+    }
+
+    public void setDisabled(boolean disabled) {
+        this.disabled = disabled;
+    }
+
+    //endregion
+
 }

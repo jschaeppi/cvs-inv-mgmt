@@ -35,8 +35,11 @@
       <clr-dg-cell >{{locationService.location.address.zip}}</clr-dg-cell>
       <clr-dg-cell >{{locationService.location.phone.area_code}}-{{locationService.location.phone.number}}</clr-dg-cell>
       <clr-dg-cell><button class="btn btn-primary btn-sm" [routerLink]="['/stores/edit', locationService.location.id]" routerLinkActive="true">Edit</button></clr-dg-cell>
-      <clr-dg-cell><button class="btn btn-danger btn-sm" (click)="locationService.deleteLocation(locationService.location)" routerLinkActive="true">Delete</button></clr-dg-cell>
+      <clr-dg-cell><button class="btn btn-danger btn-sm" (click)="deleteLocation(locationService.location)" routerLinkActive="true">Delete</button></clr-dg-cell>
     </clr-dg-row>
     <clr-dg-footer> </clr-dg-footer>
   </clr-datagrid>
 </div>
+
+{{locationService.location | json}}
+<!--{{locationService.testLocation | json}}-->

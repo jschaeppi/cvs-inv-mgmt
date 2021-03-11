@@ -24,13 +24,21 @@ public class VendorRest {
 
     //region GET MAPPINGS
     @GetMapping("/")
-    public List<Vendor> getVendors() {
-        return vendorService.listAllVendors();
+    public ResponseEntity<List<Vendor>> getVendors() {
+        List<Vendor> vendorList = vendorService.listAllVendors();
+        if (vendorList.size() == 0) {
+            return ResponseEntity.status(HttpStatus.NOT_FOUND).body(null);
+        }
+        return ResponseEntity.status(200).body(vendorList);
     }
 
     @GetMapping("/{id}")
-    public Vendor getVendor(@PathVariable int id) {
-        return vendorService.findVendor(id);
+    public ResponseEntity<Vendor> getVendor(@PathVariable int id) {
+        Vendor vendor = vendorService.findVendor(id);
+        if (vendor == null) {
+            return ResponseEntity.status(HttpStatus.NOT_FOUND).body(null);
+        }
+        return ResponseEntity.status(200).body(vendor);
     }
 
     //endregion
@@ -39,25 +47,32 @@ public class VendorRest {
 
     @PostMapping("/")
     public ResponseEntity<Vendor> saveVendor(@RequestBody Vendor vendor) {
-        System.out.println("I'm in the POST BODY");
         Vendor savedVendor = vendorService.saveVendor(vendor);
         if (!savedVendor.equals(null)) {
             ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body(null);
         }
-        return ResponseEntity.ok().body(savedVendor);
+        return ResponseEntity.status(201).body(savedVendor);
     }
 
     @PutMapping("/")
-    public Vendor updateVendor(@RequestBody Vendor vendor) {
-        System.out.println("I'm in the POST BODY");
-        return vendorService.saveVendor(vendor);
+    public ResponseEntity<Vendor> updateVendor(@RequestBody Vendor vendor) {
+
+        Vendor updatedVendor = vendorService.saveVendor(vendor);
+        if (updatedVendor == null) {
+            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body(null);
+        }
+        return ResponseEntity.status(200).body(updatedVendor);
     }
     //endregion
 
     //region DELETE MAPPINGS
-    @DeleteMapping("/{id}")
-    public boolean deleteVendor(@PathVariable int id) {
-        return vendorService.deleteVendor(id);
+    @PutMapping("/delete/")
+    public ResponseEntity<Integer> deleteVendor(@RequestBody Vendor vendor) {
+        Integer success = vendorService.deleteVendor(vendor.getId());
+        if (success == 0) {
+            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body(success);
+        }
+        return ResponseEntity.status(200).body(success);
     }
 
     //endregion

@@ -15,5 +15,5 @@ public interface VendorService {
 
     List<Vendor> saveVendors(Iterable<Vendor> vendorIterable);
 
-    boolean deleteVendor(Integer id);
+    int deleteVendor(Integer id);
 }

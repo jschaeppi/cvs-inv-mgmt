@@ -16,5 +16,5 @@ public interface LocationService {
 
     List<Location> saveLocations(Iterable<Location> locationIterable);
 
-    int deleteLocation(Location location);
+    Integer deleteLocation(Location location);
 }

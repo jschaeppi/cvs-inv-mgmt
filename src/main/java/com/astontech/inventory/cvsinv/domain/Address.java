@@ -25,6 +25,7 @@ public class Address {
     private String city;
     private String state;
     private int zip;
+    private boolean disabled;
 
     @OneToOne(mappedBy = "address")
     @JsonIgnore
@@ -123,5 +124,14 @@ public class Address {
     public void setLocation(Location location) {
         this.location = location;
     }
+
+    public boolean isDisabled() {
+        return disabled;
+    }
+
+    public void setDisabled(boolean disabled) {
+        this.disabled = disabled;
+    }
+
 //endregion
 }

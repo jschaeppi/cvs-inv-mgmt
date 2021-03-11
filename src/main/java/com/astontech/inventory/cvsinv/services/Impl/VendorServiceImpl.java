@@ -51,13 +51,13 @@ public class VendorServiceImpl implements VendorService {
 
     //DELETE A VENDOR
     @Override
-    public boolean deleteVendor(Integer id) {
+    public int deleteVendor(Integer id) {
         try {
             vendorRepository.deleteById(id);
-            return true;
+            return 1;
         } catch(Exception ex) {
             log.warn("DELETION FAILED! " + ex);
-            return false;
+            return 0;
         }
     }
 }

@@ -3,6 +3,8 @@ package com.astontech.inventory.cvsinv.rest;
 
 import com.astontech.inventory.cvsinv.domain.Phone;
 import com.astontech.inventory.cvsinv.services.PhoneService;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
@@ -19,13 +21,21 @@ public class PhoneRest {
 
     //region GET MAPPINGS
     @GetMapping("/")
-    public List<Phone> getPhones() {
-        return phoneService.listAllPhones();
+    public ResponseEntity<List<Phone>> getPhones() {
+        List<Phone> phoneList = phoneService.listAllPhones();
+        if (phoneList.size() == 0) {
+            return ResponseEntity.status(HttpStatus.NOT_FOUND).body(null);
+        }
+        return ResponseEntity.status(200).body(phoneList);
     }
 
     @GetMapping("/{id}")
-    public Phone getPhone(@PathVariable int id) {
-        return phoneService.findPhone(id);
+    public ResponseEntity<Phone> getPhone(@PathVariable int id) {
+        Phone phone = phoneService.findPhone(id);
+        if (phone == null) {
+            return ResponseEntity.status(HttpStatus.NOT_FOUND).body(null);
+        }
+        return ResponseEntity.status(200).body(phone);
     }
 
     //endregion
@@ -33,15 +43,32 @@ public class PhoneRest {
     //region SAVE MAPPINGS
 
     @PostMapping("/")
-    public Phone savePhone(@RequestBody Phone phone) {
-        return phoneService.savePhone(phone);
+    public ResponseEntity<Phone> savePhone(@RequestBody Phone phone) {
+        Phone savedPhone = phoneService.savePhone(phone);
+        if (savedPhone == null) {
+            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body(null);
+        }
+        return ResponseEntity.status(201).body(savedPhone);
+    }
+
+    @PutMapping("/")
+    public ResponseEntity<Phone> updatePhone(@RequestBody Phone phone) {
+        Phone updatedPhone = phoneService.savePhone(phone);
+        if (updatedPhone == null) {
+            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body(null);
+        }
+        return ResponseEntity.status(200).body(updatedPhone);
     }
     //endregion
 
     //region DELETE MAPPINGS
-    @DeleteMapping("/{id}")
-    public boolean deletePhone(@PathVariable int id) {
-        return phoneService.deletePhone(id);
+    @DeleteMapping("/delete/")
+    public ResponseEntity<Integer> deletePhone(@RequestBody Phone phone) {
+        Integer success = phoneService.disablePhone(phone);
+        if (success == 0) {
+            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body(0);
+        }
+        return ResponseEntity.status(20).body(1);
     }
 
     //endregion

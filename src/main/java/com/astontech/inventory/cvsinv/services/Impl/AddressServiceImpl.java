@@ -51,13 +51,13 @@ public class AddressServiceImpl implements AddressService {
 
     //DELETE AN ADDRESS
     @Override
-    public boolean deleteAddress(Integer id) {
+    public Integer disableAddress(Address address) {
         try {
-            addressRepository.deleteById(id);
-            return true;
+            addressRepository.disabledAddressById(address.getId());
+            return 1;
         } catch(Exception ex) {
             log.warn("DELETION FAILED! " + ex);
-            return false;
+            return 0;
         }
     }
 }

@@ -46,7 +46,6 @@ export class InvItemEditComponent implements OnInit {
 
     this.itemService.getItem(this.itemId)
       .subscribe( item => {
-        console.log(item);
         this.loadEditForm(item);
       }, error => {
         console.log(error);
@@ -142,7 +141,6 @@ export class InvItemEditComponent implements OnInit {
   updateItemVendor(id: number) {
     this.vendorService.getVendor(id)
       .subscribe(vendor => {
-        console.log(vendor);
         this.itemEditForm.patchValue({
           vendor: {
            id: vendor.id,
@@ -159,10 +157,9 @@ export class InvItemEditComponent implements OnInit {
     if (this.itemEditForm.valid) {
       if (this.itemEditForm.dirty) {
         const i = {...this.itemInfo, ...this.itemEditForm.value}
-        console.log(i);
         this.itemService.updateItem(i)
           .subscribe(async result => {
-              await this.router.navigateByUrl('/cat/' + result.cat3.catName);
+              await this.router.navigateByUrl('/inv/cat/' + result.cat3.catName);
             },
             error =>  {
               console.log(error);

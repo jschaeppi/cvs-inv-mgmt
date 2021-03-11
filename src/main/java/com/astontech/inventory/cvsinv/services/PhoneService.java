@@ -15,5 +15,5 @@ public interface PhoneService {
 
     List<Phone> savePhoneList(Iterable<Phone> phoneIterable);
 
-    boolean deletePhone(Integer id);
+    Integer disablePhone(Phone phone);
 }

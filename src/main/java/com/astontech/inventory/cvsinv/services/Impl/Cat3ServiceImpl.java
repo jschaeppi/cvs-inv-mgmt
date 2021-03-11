@@ -63,13 +63,13 @@ public class Cat3ServiceImpl implements Cat3Service {
 
     //DELETE A CATEGORY 3
     @Override
-    public boolean deleteCat3(Integer id) {
+    public Integer deleteCat3(Cat3 cat3) {
         try {
-            cat3Repository.deleteById(id);
-            return true;
+            cat3Repository.disableCat3(cat3.getId());
+            return 1;
         } catch (Exception ex) {
             log.warn("DELTETION FAILED " + ex);
-            return false;
+            return 0;
         }
     }
 }

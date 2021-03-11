@@ -51,13 +51,13 @@ public class PhoneServiceImpl implements PhoneService {
 
     //DELETE A PHONE
     @Override
-    public boolean deletePhone(Integer id) {
+    public Integer disablePhone(Phone phone) {
         try {
-            phoneRepository.deleteById(id);
-            return true;
+            phoneRepository.disablePhone(phone.getId());
+            return 1;
         } catch(Exception ex) {
             log.warn("DELETION FAILED! " + ex);
-            return false;
+            return 0;
         }
     }
 }

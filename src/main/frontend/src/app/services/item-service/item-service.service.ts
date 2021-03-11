@@ -23,13 +23,16 @@ export class ItemService{
     return this.http.get<Items[]>('/api/items/cat/' + catName);
   }
 
-  deleteItem(item: Items) : Observable<Items>{
-    return this.http.put<Items>('/api/items/delete/', item);
+  deleteItem(item: Items) : Observable<number>{
+    let success:Observable<number> = this.http.put<number>('/api/items/delete/', item);
+    console.log(success);
+    return success;
   }
   //endregion
 
   //region POST/PUT REQUESTS
   addItem(item: Items) : Observable<Items>{
+
     return this.http.post<Items>('/api/items/', item);
   }
 

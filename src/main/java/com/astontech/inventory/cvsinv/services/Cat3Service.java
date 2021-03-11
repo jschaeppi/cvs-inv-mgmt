@@ -19,5 +19,5 @@ public interface Cat3Service {
 
     List<Cat3> saveCat3(Iterable<Cat3> cat3Iterable);
 
-    boolean deleteCat3(Integer id);
+    Integer deleteCat3(Cat3 cat3);
 }

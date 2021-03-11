@@ -4,6 +4,7 @@ import {ActivatedRoute, Event, NavigationEnd, NavigationStart, Router} from "@an
 import {ItemService} from "../../services/item-service/item-service.service";
 import {LocationServiceService} from "../../services/location-service/location-service.service";
 import {ClrDatagridSortOrder} from "@clr/angular";
+import {Location} from "../../Types/Location";
 
 @Component({
   selector: 'app-location-list',
@@ -44,7 +45,8 @@ export class LocationListComponent implements OnInit {
     //@ts-ignore
     this.locationService.deleteLocation(location)
       .subscribe(success => {
-        if (success) {
+        console.log(success);
+        if (success == 1) {
           this.ngOnInit();
         }
       })

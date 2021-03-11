@@ -6,7 +6,7 @@
     <clr-icon shape="plus"></clr-icon>
   </a>
 </div>
-<clr-datagrid [clrDgLoading]="((vendorList$ | async)?.length > 0) ? false : true">
+<clr-datagrid >
   <clr-dg-placeholder>No vendors found</clr-dg-placeholder>
   <clr-dg-column [clrDgField]="'id'">ID</clr-dg-column>
   <clr-dg-column [clrDgField]="'name'">
@@ -14,14 +14,39 @@
     Vendor Name
     </ng-container>
   </clr-dg-column>
-  <clr-dg-column [clrDgField]="'address'" >
+  <clr-dg-column [clrDgField]="'address.street'" >
     <ng-container *clrDgHideableColumn="{hidden: false}">
     Vendor Address
     </ng-container>
   </clr-dg-column>
+  <clr-dg-column [clrDgField]="'address.street2'" >
+    <ng-container *clrDgHideableColumn="{hidden: false}">
+      Vendor Suite/Unit #
+    </ng-container>
+  </clr-dg-column>
+  <clr-dg-column [clrDgField]="'address.city'" >
+    <ng-container *clrDgHideableColumn="{hidden: false}">
+      Vendor City
+    </ng-container>
+  </clr-dg-column>
+  <clr-dg-column [clrDgField]="'address.state'" >
+    <ng-container *clrDgHideableColumn="{hidden: false}">
+      Vendor State
+    </ng-container>
+  </clr-dg-column>
+  <clr-dg-column [clrDgField]="'address.zip'" >
+    <ng-container *clrDgHideableColumn="{hidden: false}">
+      Vendor Zip
+    </ng-container>
+  </clr-dg-column>
   <clr-dg-column [clrDgField]="'phone'" >
     <ng-container *clrDgHideableColumn="{hidden: false}">
-    Vendor Phone
+    Vendor Area Code
+    </ng-container>
+  </clr-dg-column>
+  <clr-dg-column [clrDgField]="'phone'" >
+    <ng-container *clrDgHideableColumn="{hidden: false}">
+      Vendor Phone Number
     </ng-container>
   </clr-dg-column>
   <clr-dg-column></clr-dg-column>
@@ -35,10 +60,25 @@
       {{vendor.name}}
     </clr-dg-cell>
     <clr-dg-cell>
-      {{vendor.address.street}} {{vendor.address.city}} {{vendor.address.state}}
+      {{vendor.address.street}}
     </clr-dg-cell>
     <clr-dg-cell>
-      {{vendor.phone.area_code}}-{{vendor.phone.number}}
+    {{vendor.address.street2}}
+    </clr-dg-cell>
+    <clr-dg-cell>
+    {{vendor.address.city}}
+    </clr-dg-cell>
+    <clr-dg-cell>
+    {{vendor.address.state}}
+    </clr-dg-cell>
+    <clr-dg-cell>
+    {{vendor.address.zip}}
+    </clr-dg-cell>
+    <clr-dg-cell>
+    {{vendor.phone.area_code}}
+    </clr-dg-cell>
+    <clr-dg-cell>
+      {{vendor.phone.number}}
     </clr-dg-cell>
     <clr-dg-cell>
       <button class="btn btn-primary btn-sm" [routerLink]="['edit', vendor.id]" routerLinkActive="true">
@@ -46,7 +86,7 @@
       </button>
     </clr-dg-cell>
     <clr-dg-cell>
-      <button class="btn btn-danger btn-sm" [routerLink]="['delete', vendor.id]" routerLinkActive="true">
+      <button class="btn btn-danger btn-sm" (click)="deleteVendor(vendor)" routerLinkActive="true">
         Delete
       </button>
     </clr-dg-cell>

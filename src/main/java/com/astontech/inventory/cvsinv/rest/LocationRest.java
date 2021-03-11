@@ -3,6 +3,8 @@ package com.astontech.inventory.cvsinv.rest;
 import com.astontech.inventory.cvsinv.domain.Location;
 import com.astontech.inventory.cvsinv.domain.Vendor;
 import com.astontech.inventory.cvsinv.services.LocationService;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
@@ -19,13 +21,22 @@ public class LocationRest {
 
     //region GET MAPPINGS
     @GetMapping("/")
-    public List<Location> getLocations() {
-        return locationService.listAllLocations();
+    public ResponseEntity<List<Location>> getLocations() {
+        List<Location> locationList = locationService.listAllLocations();
+            if (locationList.size() == 0) {
+                return ResponseEntity.status(HttpStatus.NOT_FOUND).body(null);
+            }
+            return ResponseEntity.status(200).body(locationList);
     }
 
     @GetMapping("/{id}")
-    public Location getLocation(@PathVariable int id) {
-        return locationService.findLocation(id);
+    public ResponseEntity<Location> getLocation(@PathVariable int id) {
+
+        Location location = locationService.findLocation(id);
+        if (location == null) {
+            return ResponseEntity.status(HttpStatus.NOT_FOUND).body(null);
+        }
+        return ResponseEntity.status(200).body(location);
     }
 
     //endregion
@@ -33,21 +44,32 @@ public class LocationRest {
     //region SAVE MAPPINGS
 
     @PostMapping("/")
-    public Location saveLocation(@RequestBody Location location) {
-
-        return locationService.saveLocation(location);
+    public ResponseEntity<Location> saveLocation(@RequestBody Location location) {
+        Location fetchedLocation = locationService.saveLocation(location);
+        if (fetchedLocation == null) {
+            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body(null);
+        }
+        return ResponseEntity.status(HttpStatus.CREATED).body(fetchedLocation);
     }
 
     @PutMapping("/")
-    public Location updateLocation(@RequestBody Location location) {
-        return locationService.saveLocation(location);
+    public ResponseEntity<Location> updateLocation(@RequestBody Location location) {
+        Location updatedLocation = locationService.saveLocation(location);
+        if (updatedLocation == null) {
+            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body(null);
+        }
+        return ResponseEntity.status(200).body(updatedLocation);
     }
     //endregion
 
     //region DELETE MAPPINGS
     @PutMapping("/delete/")
-    public int deleteLocation(@RequestBody Location location) {
-        return locationService.deleteLocation(location);
+    public ResponseEntity<Integer> deleteLocation(@RequestBody Location location) {
+        Integer success = locationService.deleteLocation(location);
+        if (success == 0) {
+            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body(success);
+        }
+        return ResponseEntity.status(200).body(success);
     }
 
     //endregion
