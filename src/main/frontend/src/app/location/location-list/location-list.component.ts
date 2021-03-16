@@ -1,7 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import {HttpClient} from "@angular/common/http";
-import {ActivatedRoute, Event, NavigationEnd, NavigationStart, Router} from "@angular/router";
-import {ItemService} from "../../services/item-service/item-service.service";
+import {ActivatedRoute} from "@angular/router";
 import {LocationServiceService} from "../../services/location-service/location-service.service";
 import {ClrDatagridSortOrder} from "@clr/angular";
 import {Location} from "../../Types/Location";
@@ -24,8 +23,6 @@ export class LocationListComponent implements OnInit {
 
   constructor(private http: HttpClient,
               private routeParam: ActivatedRoute,
-              private route: Router,
-              private itemService: ItemService,
               public locationService: LocationServiceService) {
               this.savedLocation = this.routeParam.snapshot.paramMap.get('name');
               this.storeId = this.routeParam.snapshot.paramMap.get('id');

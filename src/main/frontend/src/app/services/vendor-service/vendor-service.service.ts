@@ -18,6 +18,9 @@ export class VendorService {
     return this.http.get<Vendor[]>('/api/vendor/');
   }
 
+  getItemCountByVendor() : Observable<[]> {
+    return this.http.get<[]>('/api/vendor/vendorItemCount/')
+  }
   getVendor(id: number) : Observable<Vendor>{
     return this.http.get<Vendor>('/api/vendor/'+ id);
   }

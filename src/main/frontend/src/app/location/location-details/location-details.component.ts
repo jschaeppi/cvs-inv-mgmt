@@ -26,11 +26,12 @@ export class LocationDetailsComponent implements OnInit {
 
   ngOnInit(): void {
     this.fetchingInformation = false;
-    if (this.savedLocation) {
-      this.submitted = true;
-      this.successMsg();
-    } else {
-      if (this.storeId != null) {
+    if (this.storeId != null) {
+      if (this.savedLocation) {
+        this.submitted = true;
+        this.successMsg();
+        this.locationService.locationDetails(+this.storeId);
+      } else {
         this.locationService.locationDetails(+this.storeId);
       }
     }

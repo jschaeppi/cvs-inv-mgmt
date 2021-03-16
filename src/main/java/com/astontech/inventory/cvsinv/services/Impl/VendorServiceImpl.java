@@ -3,6 +3,7 @@ package com.astontech.inventory.cvsinv.services.Impl;
 import com.astontech.inventory.cvsinv.domain.Vendor;
 import com.astontech.inventory.cvsinv.repositories.VendorRepository;
 import com.astontech.inventory.cvsinv.services.VendorService;
+import org.apache.jasper.tagplugins.jstl.core.ForEach;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Service;
@@ -27,6 +28,15 @@ public class VendorServiceImpl implements VendorService {
         List<Vendor> vendorList = new ArrayList<>();
         vendorRepository.findVendorsByDisabledFalse().iterator().forEachRemaining(vendorList::add);
         return vendorList;
+    }
+
+    @Override
+    public List<Vendor> getItemCountByVendor() {
+        List<Vendor> vendorCount = vendorRepository.itemCountsByVendor();
+        for(Vendor v : vendorCount) {
+            System.out.println(v.getName());
+        }
+        return vendorCount;
     }
 
     //FIND A VENDOR

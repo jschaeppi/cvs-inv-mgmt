@@ -19,4 +19,10 @@ public interface VendorRepository extends CrudRepository<Vendor, Integer> {
             "SET disabled=true " +
             "WHERE id=:id")
     int disableVendorById(@PathVariable int id);
+
+    @Query("SELECT new Vendor(v.name, COUNT(i.id))" +
+            "FROM Vendor v " +
+            "JOIN Items i ON i.vendor.id = v.id " +
+            "GROUP BY v.name")
+    List<Vendor> itemCountsByVendor();
 }

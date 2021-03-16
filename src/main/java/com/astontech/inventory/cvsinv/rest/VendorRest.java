@@ -22,6 +22,16 @@ public class VendorRest {
         this.vendorService = vendorService;
     }
 
+    @GetMapping("/vendorItemCount/")
+    public ResponseEntity<List<Vendor>> getVendorItemCount() {
+        List<Vendor> vendorItemCount = vendorService.getItemCountByVendor();
+        if (vendorItemCount.isEmpty()) {
+            return ResponseEntity.status(HttpStatus.NOT_FOUND).body(null);
+        }
+        System.out.println(vendorItemCount);
+        return ResponseEntity.status(200).body(vendorItemCount);
+    }
+
     //region GET MAPPINGS
     @GetMapping("/")
     public ResponseEntity<List<Vendor>> getVendors() {

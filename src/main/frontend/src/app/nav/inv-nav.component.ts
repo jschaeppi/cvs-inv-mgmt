@@ -1,10 +1,10 @@
 import {Component, OnInit} from '@angular/core';
-import {Cat3} from "../../Types/cat3";
-import {CommonFunctions} from '../../common/commonFunctions'
-import {Cat1} from "../../Types/cat1";
+import {Cat3} from "../Types/cat3";
+import {CommonFunctions} from '../common/commonFunctions'
+import {Cat1} from "../Types/cat1";
 import {Observable} from "rxjs";
-import {ItemLevelCatService} from "../../services/item-levelCat-service/item-level-cat.service";
-import {TopLevelCatService} from "../../services/top-levelCat-service/top-level-cat.service";
+import {ItemLevelCatService} from "../services/item-levelCat-service/item-level-cat.service";
+import {TopLevelCatService} from "../services/top-levelCat-service/top-level-cat.service";
 
 @Component({
   selector: 'app-inv-nav',

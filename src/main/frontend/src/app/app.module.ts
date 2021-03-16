@@ -3,7 +3,7 @@ import { BrowserModule } from '@angular/platform-browser';
 
 import { AppRoutingModule } from './app-routing.module';
 import { AppComponent } from './app.component';
-import { InvNavComponent } from './inv/inv-nav/inv-nav.component';
+import { InvNavComponent } from './nav/inv-nav.component';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import {ClarityModule } from "@clr/angular";
 import { ClrLayoutModule} from "@clr/angular";
@@ -24,6 +24,8 @@ import { VendorEditComponent } from './vendor/vendor-edit/vendor-edit.component'
 import {PhoneNumPipe} from "./common/phoneNumPipe";
 import { LocationAddItemsComponent } from './location/location-add-items/location-add-items.component';
 import { LocationListComponent } from './location/location-list/location-list.component';
+import {BarChartModule} from "@swimlane/ngx-charts";
+import { LoginComponent } from './login/login.component';
 
 @NgModule({
   declarations: [
@@ -42,7 +44,8 @@ import { LocationListComponent } from './location/location-list/location-list.co
     VendorEditComponent,
     PhoneNumPipe,
     LocationAddItemsComponent,
-    LocationListComponent
+    LocationListComponent,
+    LoginComponent
   ],
   imports: [
     BrowserModule,
@@ -54,6 +57,7 @@ import { LocationListComponent } from './location/location-list/location-list.co
     HttpClientModule,
     ReactiveFormsModule,
     FormsModule,
+    BarChartModule,
   ],
   providers: [],
   bootstrap: [AppComponent]

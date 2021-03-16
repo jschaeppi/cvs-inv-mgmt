@@ -5,7 +5,7 @@ import {ActivatedRoute, Router} from "@angular/router";
 import {Observable} from "rxjs";
 import {CommonFunctions} from "../../common/commonFunctions";
 import {ItemLevelCatService} from "../../services/item-levelCat-service/item-level-cat.service";
-import {ItemService} from "../../services/item-service/item-service.service";
+import {ItemService} from "../../services/item-service/item.service";
 import {Cat2} from "../../Types/cat2";
 import {VendorService} from "../../services/vendor-service/vendor-service.service";
 import {Vendor} from "../../Types/Vendor";

@@ -11,9 +11,13 @@ import {LocationEditComponent} from "./location/location-edit/location-edit.comp
 import {LocationAddItemsComponent} from "./location/location-add-items/location-add-items.component";
 import {LocationListComponent} from "./location/location-list/location-list.component";
 import {LocationDetailsComponent} from "./location/location-details/location-details.component";
+import {DashboardComponent} from "./dashboard/dashboard.component";
+import {LoginComponent} from "./login/login.component";
 
 const routes: Routes = [
 
+  { path: 'dashboard', component: DashboardComponent },
+  { path: 'login', component: LoginComponent },
   { path: 'inv', component: InvItemTableComponent },
   { path: 'inv/cat/:catName', component: InvItemTableComponent },
   { path: 'inv/item/edit/:id', component: InvItemEditComponent, resolve: { } },

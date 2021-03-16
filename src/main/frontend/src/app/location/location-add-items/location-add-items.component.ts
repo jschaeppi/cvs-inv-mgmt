@@ -5,7 +5,7 @@ import {Items} from "../../Types/items";
 import {AbstractControl, FormBuilder, FormGroup} from "@angular/forms";
 import {LocationServiceService} from "../../services/location-service/location-service.service";
 import {ActivatedRoute} from "@angular/router";
-import {ItemService} from "../../services/item-service/item-service.service";
+import {ItemService} from "../../services/item-service/item.service";
 
 @Component({
   selector: 'app-location-add-items',

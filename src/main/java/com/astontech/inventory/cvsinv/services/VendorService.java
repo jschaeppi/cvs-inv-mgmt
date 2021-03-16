@@ -9,6 +9,7 @@ public interface VendorService {
 
     List<Vendor> listAllVendors();
 
+    List<Vendor> getItemCountByVendor();
     Vendor findVendor(Integer id);
 
     Vendor saveVendor(Vendor vendor);

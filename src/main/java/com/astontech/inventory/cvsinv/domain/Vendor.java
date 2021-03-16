@@ -20,6 +20,7 @@ public class Vendor {
     @Version
     private Integer version;
 
+    private Long value;
     private String name;
     private boolean disabled;
 
@@ -39,6 +40,10 @@ public class Vendor {
     public Vendor() {
     }
 
+    public Vendor(String name, Long value) {
+        this.name = name;
+        this.value = value;
+    }
     public Vendor(String name) {
         this.name = name;
     }
@@ -100,6 +105,18 @@ public class Vendor {
 
     public void setDisabled(boolean disabled) {
         this.disabled = disabled;
+    }
+
+    public Long getValue() {
+        return value;
+    }
+
+    public void setValue(Long value) {
+        this.value = value;
+    }
+
+    public boolean isDisabled() {
+        return disabled;
     }
 
     //endregion

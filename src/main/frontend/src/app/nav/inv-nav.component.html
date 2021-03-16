@@ -3,14 +3,18 @@
     CVS Inventory
   </div>
   <div class="header-nav">
-    <a routerLink="/inv" routerLinkActive="active" class="active nav-link nav-text">Dashboard</a>
+    <a routerLink="/dashboard" routerLinkActive="active" class="active nav-link nav-text">Dashboard</a>
     <a routerLink="/vendor" routerLinkActive="active" class="active nav-link nav-text">Vendors</a>
     <a routerLink="/stores" routerLinkActive="active" class="active nav-link nav-text">Stores</a>
+  </div>
+  <div class="header-actions">
+    <a routerLink="/login" routerLinkActive="active" class="active nav-link nav-text">Login</a>
   </div>
 </header>
 <div class="main-container">
   <div class="content-container">
     <clr-vertical-nav [clrVerticalNavCollapsible]="true">
+      <a clrVerticalNavLink [routerLink]="'/inv'" routerLinkActive="true">All Items</a>
       <clr-vertical-nav-group (click)="getItemLevelCat(nav, i)" *ngFor="let nav of navLinks; let i = index">
         {{nav.catName}}
 

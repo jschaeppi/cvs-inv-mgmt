@@ -1,10 +1,5 @@
-<ng-template #errorTrue>
-  <clr-control-error class="alert alert-danger">No items exist under Category {{itemCatName}}</clr-control-error>
-</ng-template>
 <div>
   <!--Todo Finish error checking-->
-  <ng-container *ngIf="!errorStatus; else errorTrue">
-  </ng-container>
   <div [hidden]="!submitted" id="success" class="alert alert-success">
     {{savedLocation}} was added successfully!
   </div>
@@ -14,6 +9,7 @@
     </a>
   </div>
   <clr-datagrid>
+    <clr-dg-placeholder>No Store Found</clr-dg-placeholder>
     <clr-dg-column>Item ID</clr-dg-column>
     <clr-dg-column [clrDgField]="'storeName'">Store</clr-dg-column>
     <clr-dg-column [clrDgField]="'storeCode'">Code</clr-dg-column>
@@ -40,6 +36,3 @@
     <clr-dg-footer> </clr-dg-footer>
   </clr-datagrid>
 </div>
-
-{{locationService.location | json}}
-<!--{{locationService.testLocation | json}}-->

@@ -57,7 +57,6 @@ export class LocationEditComponent implements OnInit {
     })
     this.addAddress();
     this.addPhone()
-    console.log(this.locationEdit);
   }
 
   addAddress(): AbstractControl {
@@ -97,9 +96,7 @@ export class LocationEditComponent implements OnInit {
   }
   submit() {
     let updatedStore: Location = {...this.locationDataModel, ...this.locationEdit.value};
-    console.log(updatedStore);
     if (this.locationEdit.valid && this.locationEdit.dirty) {
-      console.log(this.locationEdit);
       this.submitted = true;
       this.error = false;
       //@ts-ignore
