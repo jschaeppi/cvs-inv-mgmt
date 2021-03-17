@@ -1,5 +1,6 @@
 export class CommonFunctions {
 
+  baseUrl: string = 'http://aston.local:8080';
   catSorter(cats: any): any {
     cats.sort((a:any, b:any) => {
       if (a.catName > b.catName) {

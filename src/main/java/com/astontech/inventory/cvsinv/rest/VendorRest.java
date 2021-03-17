@@ -11,6 +11,7 @@ import org.springframework.web.bind.annotation.*;
 import java.util.List;
 
 @RestController()
+@CrossOrigin(origins = "http://aston.local:4200")
 @RequestMapping("/api/vendor")
 public class VendorRest {
 
@@ -28,11 +29,11 @@ public class VendorRest {
         if (vendorItemCount.isEmpty()) {
             return ResponseEntity.status(HttpStatus.NOT_FOUND).body(null);
         }
-        System.out.println(vendorItemCount);
         return ResponseEntity.status(200).body(vendorItemCount);
     }
 
     //region GET MAPPINGS
+    @CrossOrigin
     @GetMapping("/")
     public ResponseEntity<List<Vendor>> getVendors() {
         List<Vendor> vendorList = vendorService.listAllVendors();

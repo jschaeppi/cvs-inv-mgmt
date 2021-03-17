@@ -17,7 +17,7 @@ import {LoginComponent} from "./login/login.component";
 const routes: Routes = [
 
   { path: 'dashboard', component: DashboardComponent },
-  { path: 'login', component: LoginComponent },
+  // { path: 'login', component: LoginComponent },
   { path: 'inv', component: InvItemTableComponent },
   { path: 'inv/cat/:catName', component: InvItemTableComponent },
   { path: 'inv/item/edit/:id', component: InvItemEditComponent, resolve: { } },

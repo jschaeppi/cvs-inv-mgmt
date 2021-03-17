@@ -7,11 +7,10 @@ import org.springframework.context.annotation.ComponentScan;
 import org.springframework.context.annotation.Configuration;
 import org.h2.server.web.WebServlet;
 import org.springframework.data.jpa.repository.config.EnableJpaRepositories;
+import org.springframework.web.servlet.config.annotation.CorsRegistry;
+import org.springframework.web.servlet.config.annotation.WebMvcConfigurer;
 
 @Configuration
-/*@ComponentScan("com.astontech.inventory.cvsinv")
-@EntityScan("com.astontech.inventory.cvsinv.domain")
-@EnableJpaRepositories("com.astontech.inventory.cvsinv.repositories")*/
 public class WebConfiguration {
 
     @Bean

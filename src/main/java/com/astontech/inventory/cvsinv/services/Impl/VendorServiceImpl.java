@@ -32,11 +32,7 @@ public class VendorServiceImpl implements VendorService {
 
     @Override
     public List<Vendor> getItemCountByVendor() {
-        List<Vendor> vendorCount = vendorRepository.itemCountsByVendor();
-        for(Vendor v : vendorCount) {
-            System.out.println(v.getName());
-        }
-        return vendorCount;
+        return vendorRepository.itemCountsByVendor();
     }
 
     //FIND A VENDOR

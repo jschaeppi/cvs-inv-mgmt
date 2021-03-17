@@ -4,6 +4,7 @@
   "scripts": {
     "ng": "ng",
     "start": "ng serve --host 0.0.0.0 --disable-host-check --proxy-config=proxy-config.json",
+    "build": "ng build",
     "postbuild": "npm run deploy",
     "predeploy": "rimraf ../resources/static && mkdirp ../resources/static",
     "deploy": "copyfiles -f dist/frontend/** ../resources/static",

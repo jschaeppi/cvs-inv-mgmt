@@ -10,6 +10,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 @RestController()
+@CrossOrigin(origins = "http://aston.local")
 @RequestMapping("/api/cat3")
 public class Cat3Rest {
 
