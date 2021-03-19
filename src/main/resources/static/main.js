@@ -1512,13 +1512,11 @@ class VendorAddComponent {
     submit() {
         let savedVendor;
         if (this.vendorAdd.valid) {
-            console.log(this.vendorAdd);
             this.submitted = true;
             this.vendorService.addVendor(this.vendorAdd.value)
                 .subscribe(vendor => {
                 savedVendor = vendor;
                 this.saveComplete(savedVendor);
-                console.log(savedVendor);
             });
             // this.vendorAdd.reset();
         }
@@ -1701,12 +1699,11 @@ class DashboardComponent {
     ngOnInit() {
         this.vendorService.getItemCountByVendor()
             .subscribe(result => {
-            console.log(result);
             this.data = result;
         });
     }
     onSelect(event) {
-        console.log(event);
+        // console.log(event);
     }
 }
 
@@ -3751,17 +3748,14 @@ class LocationAddComponent {
     }
     saveComplete(saveStore) {
         // @ts-ignore
-        this.router.navigate(['/stores', { id: saveStore.id, store: saveStore.name }]);
+        this.router.navigate(['/stores']);
     }
     submit() {
-        console.log(this.locationAdd.value);
         if (this.locationAdd.valid && this.locationAdd.dirty) {
-            console.log(this.locationAdd);
             this.submitted = true;
             this.error = false;
             this.locationService.addLocation(this.locationAdd.value)
                 .subscribe(store => {
-                console.log(store);
                 // @ts-ignore
                 this.saveComplete(store);
             });

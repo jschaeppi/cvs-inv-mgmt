@@ -11,13 +11,11 @@ import org.springframework.web.bind.annotation.*;
 import java.util.List;
 
 @RestController()
-@CrossOrigin(origins = "http://aston.local:4200")
 @RequestMapping("/api/vendor")
 public class VendorRest {
 
     private VendorService vendorService;
-    private AddressService addressService;
-    private PhoneService phoneService;
+
 
     public VendorRest(VendorService vendorService) {
         this.vendorService = vendorService;
@@ -33,7 +31,6 @@ public class VendorRest {
     }
 
     //region GET MAPPINGS
-    @CrossOrigin
     @GetMapping("/")
     public ResponseEntity<List<Vendor>> getVendors() {
         List<Vendor> vendorList = vendorService.listAllVendors();

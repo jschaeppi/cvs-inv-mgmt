@@ -111,7 +111,6 @@ export class InvItemAddComponent implements OnInit {
   updateItemVendor(id: number) {
     this.vendorService.getVendor(id)
       .subscribe(vendor => {
-        console.log(vendor);
         this.itemAddForm.patchValue({
           vendor: {
             id: vendor.id,

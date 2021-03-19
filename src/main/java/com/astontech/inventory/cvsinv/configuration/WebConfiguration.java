@@ -11,7 +11,7 @@ import org.springframework.web.servlet.config.annotation.CorsRegistry;
 import org.springframework.web.servlet.config.annotation.WebMvcConfigurer;
 
 @Configuration
-public class WebConfiguration {
+public class WebConfiguration implements WebMvcConfigurer {
 
     @Bean
     ServletRegistrationBean h2servletRegistration() {
@@ -19,5 +19,10 @@ public class WebConfiguration {
         registrationBean.addUrlMappings("/console/*");
 
         return registrationBean;
+    }
+
+    @Override
+    public void addCorsMappings(CorsRegistry corsRegistry) {
+        corsRegistry.addMapping("/**").allowedOrigins("*").allowedMethods("HEAD", "GET", "PUT", "POST", "DELETE", "PATCH");
     }
 }

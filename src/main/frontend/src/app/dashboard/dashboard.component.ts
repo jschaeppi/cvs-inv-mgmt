@@ -38,12 +38,11 @@ export class DashboardComponent implements OnInit {
   ngOnInit(): void {
     this.vendorService.getItemCountByVendor()
       .subscribe(result => {
-        console.log(result);
         this.data = result;
       })
   }
   onSelect(event: Event) {
-    console.log(event);
+    // console.log(event);
   }
 
 }

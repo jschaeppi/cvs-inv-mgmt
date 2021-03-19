@@ -81,13 +81,11 @@ export class VendorAddComponent implements OnInit {
   submit() {
     let savedVendor: Vendor;
     if (this.vendorAdd.valid) {
-        console.log(this.vendorAdd);
         this.submitted = true;
         this.vendorService.addVendor(this.vendorAdd.value)
            .subscribe(vendor => {
              savedVendor = vendor;
              this.saveComplete(savedVendor)
-             console.log(savedVendor);
            })
       // this.vendorAdd.reset();
     } else {
