@@ -1,0 +1,41 @@
+<div [hidden] ="!error" class="alert alert-danger">
+  Form couldn't be submitted.  Review errors
+</div>
+<div [hidden]="!submitted" class="alert alert-success">
+  {{locationAddItem.value.name}} was added successfully!
+</div>
+<form clrForm clrLayout="horizontal" [formGroup]="locationAddItem">
+  <h3>Store</h3>
+  <clr-control-container>
+    <label for="storeName">Store Name</label>
+    <input clrInput type="text" id="storeName" formControlName="name" />
+  </clr-control-container>
+  <h3>Store Items</h3>
+  <clr-combobox-container>
+    <label>Items</label>
+    <clr-combobox formControlName="items" name="multiSelect" clrMulti="true" required >
+      <ng-container *clrOptionSelected="let selected">
+        {{selected?.name ? selected.name : ''}}
+      </ng-container>
+      <clr-options>
+        <clr-option *clrOptionItems="let item of items | async; field:'name'" [clrValue]="item">
+          {{item.name}}
+        </clr-option>
+      </clr-options>
+    </clr-combobox>
+    <clr-control-helper>Helper text</clr-control-helper>
+    <clr-control-error>There was an error</clr-control-error>
+  </clr-combobox-container>
+  <clr-input-container>
+    <label for="count">Product count</label>
+    <input clrInput type="number" id="count" name="count" formControlName="count" required />
+  </clr-input-container>
+  <button class="btn btn-primary" (click)="submit()">Submit</button>
+
+</form>
+{{locationAddItem.valid}}
+{{locationAddItem.pristine}}
+{{locationAddItem.touched}}
+{{locationAddItem.value | json}}
+
+

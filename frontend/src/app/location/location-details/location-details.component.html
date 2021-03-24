@@ -1,0 +1,38 @@
+<div>
+  <!--Todo Finish error checking-->
+  <div [hidden]="!submitted" id="success" class="alert alert-success">
+    {{savedLocation}} was added successfully!
+  </div>
+  <div class="header-actions">
+    <a routerLink="/stores/add" routerLinkActive="active" class="nav-link nav-icon" aria-label="settings">
+      <clr-icon shape="plus"></clr-icon>
+    </a>
+  </div>
+  <clr-datagrid>
+    <clr-dg-placeholder>No Store Found</clr-dg-placeholder>
+    <clr-dg-column>Item ID</clr-dg-column>
+    <clr-dg-column [clrDgField]="'storeName'">Store</clr-dg-column>
+    <clr-dg-column [clrDgField]="'storeCode'">Code</clr-dg-column>
+    <clr-dg-column [clrDgField]="'storeAddress'">Address</clr-dg-column>
+    <clr-dg-column [clrDgField]="'storeCity'">City</clr-dg-column>
+    <clr-dg-column [clrDgField]="'storeState'">State</clr-dg-column>
+    <clr-dg-column [clrDgField]="'storeZip'">Zip</clr-dg-column>
+    <clr-dg-column [clrDgField]="'storePhone'">Phone</clr-dg-column>
+    <clr-dg-column [clrDgField]="'edit'"></clr-dg-column>
+    <clr-dg-column [clrDgField]="'delete'"></clr-dg-column>
+
+    <clr-dg-row>
+      <clr-dg-cell>{{locationService.location.id}}</clr-dg-cell>
+      <clr-dg-cell>{{locationService.location.name}}</clr-dg-cell>
+      <clr-dg-cell >{{locationService.location.store_code}}</clr-dg-cell>
+      <clr-dg-cell >{{locationService.location.address.street}}</clr-dg-cell>
+      <clr-dg-cell >{{locationService.location.address.city}}</clr-dg-cell>
+      <clr-dg-cell >{{locationService.location.address.state}}</clr-dg-cell>
+      <clr-dg-cell >{{locationService.location.address.zip}}</clr-dg-cell>
+      <clr-dg-cell >{{locationService.location.phone.area_code}}-{{locationService.location.phone.number}}</clr-dg-cell>
+      <clr-dg-cell><button class="btn btn-primary btn-sm" [routerLink]="['/stores/edit', locationService.location.id]" routerLinkActive="true">Edit</button></clr-dg-cell>
+      <clr-dg-cell><button class="btn btn-danger btn-sm" (click)="deleteLocation(locationService.location)" routerLinkActive="true">Delete</button></clr-dg-cell>
+    </clr-dg-row>
+    <clr-dg-footer> </clr-dg-footer>
+  </clr-datagrid>
+</div>

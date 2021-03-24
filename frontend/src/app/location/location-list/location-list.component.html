@@ -1,0 +1,126 @@
+<div *ngIf= "!fetchingInformation;">
+  <div *ngIf="storeId">
+    <app-location-details></app-location-details>
+  </div>
+  <div *ngIf="!storeId">
+      <a routerLink="/stores/add" routerLinkActive="active" class="nav-link nav-icon" aria-label="settings">
+        <clr-icon shape="plus"></clr-icon>
+      </a>
+  <clr-datagrid *ngIf="!storeId" [clrDgLoading]="fetchingInformation">
+    <clr-dg-placeholder>No Locations Found!</clr-dg-placeholder>
+    <clr-dg-column>ID</clr-dg-column>
+    <clr-dg-column [clrDgField]="'name'">
+      <ng-container *clrDgHideableColumn="{hidden: false}">
+      Store
+      </ng-container>
+    </clr-dg-column>
+    <clr-dg-column [clrDgField]="'store_code'">
+      <ng-container *clrDgHideableColumn="{hidden: false}">
+        Code
+      </ng-container>
+    </clr-dg-column>
+    <clr-dg-column [clrDgField]="'address.street'">
+      <ng-container *clrDgHideableColumn="{hidden: false}">
+        Street
+      </ng-container>
+    </clr-dg-column>
+    <clr-dg-column [clrDgField]="'address.city'">
+      <ng-container *clrDgHideableColumn="{hidden: false}">
+        City
+      </ng-container>
+    </clr-dg-column>
+    <clr-dg-column [clrDgField]="'address.state'">
+      <ng-container *clrDgHideableColumn="{hidden: false}">
+        State
+      </ng-container>
+    </clr-dg-column>
+    <clr-dg-column [clrDgField]="'address.zip'">
+      <ng-container *clrDgHideableColumn="{hidden: false}">
+        Zip
+      </ng-container>
+    </clr-dg-column>
+    <clr-dg-column [clrDgField]="'phone.number'">
+      <ng-container *clrDgHideableColumn="{hidden: false}">
+        Phone
+      </ng-container>
+    </clr-dg-column>
+    <clr-dg-column [clrDgField]="'edit'">
+
+    </clr-dg-column>
+    <clr-dg-column [clrDgField]="'delete'">
+
+    </clr-dg-column>
+
+    <clr-dg-row *clrDgItems="let location of locationService.locations$ | async" [clrDgItem]="location" [(clrDgSelected)]="location.selected">
+      <clr-dg-cell>
+        {{location.id}}
+      </clr-dg-cell>
+      <clr-dg-cell>
+        <a [routerLink]="['/stores/', location.id]" routerLinkActive="active">
+          {{location.name}}
+        </a>
+      </clr-dg-cell>
+      <clr-dg-cell >
+        {{location.store_code}}
+      </clr-dg-cell>
+      <clr-dg-cell >
+        {{location.address.street}}
+      </clr-dg-cell>
+      <clr-dg-cell >
+        {{location.address.city}}
+      </clr-dg-cell>
+      <clr-dg-cell >
+        {{location.address.state}}
+      </clr-dg-cell>
+      <clr-dg-cell >
+        {{location.address.zip}}
+      </clr-dg-cell>
+      <clr-dg-cell >
+        {{location.phone.area_code}}-{{location.phone.number}}
+      </clr-dg-cell>
+      <clr-dg-cell><button class="btn btn-primary btn-sm" [routerLink]="['/stores/edit', location.id]" routerLinkActive="true">
+        Edit
+      </button>
+      </clr-dg-cell>
+      <clr-dg-cell>
+        <button class="btn btn-danger btn-sm" (click)="deleteLocation(location)" routerLinkActive="true">
+          Delete
+        </button>
+      </clr-dg-cell>
+    </clr-dg-row>
+
+    <clr-dg-detail *clrIfDetail="let chosenLocation">
+      <clr-dg-detail-header>{{chosenLocation.name}}</clr-dg-detail-header>
+      <clr-dg-detail-body>
+        <h4>Store Address:</h4>
+        {{chosenLocation.address.street}}
+        <br />
+        {{chosenLocation.address.city}}, {{chosenLocation.address.state}} {{chosenLocation.address.zip}}
+        <h4>Store Phone:</h4>
+        ({{chosenLocation.phone.area_code}}) - {{chosenLocation.phone.number}}
+        <clr-datagrid *clrDgItems="let item of chosenLocation.itemsList">
+          <clr-dg-column>Id</clr-dg-column>
+          <clr-dg-column>Store</clr-dg-column>
+          <clr-dg-column>Item</clr-dg-column>
+          <clr-dg-column>Count</clr-dg-column>
+
+          <clr-dg-row>
+            <clr-dg-cell>{{item.id}}</clr-dg-cell>
+            <clr-dg-cell>{{chosenLocation.name}}</clr-dg-cell>
+            <clr-dg-cell>{{chosenLocation.count}}</clr-dg-cell>
+            <clr-dg-cell>{{item.name}}</clr-dg-cell>
+          </clr-dg-row>
+        </clr-datagrid>
+      </clr-dg-detail-body>
+    </clr-dg-detail>
+    <clr-dg-footer>
+
+      <clr-dg-pagination #pagination [clrDgPageSize]="10">
+        <clr-dg-page-size [clrPageSizeOptions]="[10,20,50,100]">
+          {{pagination.firstItem + 1}} - {{pagination.lastItem + 1}}
+          of {{pagination.totalItems}} Stores per page
+        </clr-dg-page-size>
+      </clr-dg-pagination>
+    </clr-dg-footer>
+  </clr-datagrid>
+</div>

@@ -1,0 +1,35 @@
+<header class="header-2">
+  <div class="branding">
+    CVS Inventory
+  </div>
+  <div class="header-nav">
+    <a routerLink="/dashboard" routerLinkActive="active" class="active nav-link nav-text">Dashboard</a>
+    <a routerLink="/vendor" routerLinkActive="active" class="active nav-link nav-text">Vendors</a>
+    <a routerLink="/stores" routerLinkActive="active" class="active nav-link nav-text">Stores</a>
+  </div>
+  <div class="header-actions">
+    <a routerLink="/login" routerLinkActive="active" class="active nav-link nav-text">Login</a>
+  </div>
+</header>
+<div class="main-container">
+  <div class="content-container">
+    <clr-vertical-nav [clrVerticalNavCollapsible]="true">
+      <a clrVerticalNavLink [routerLink]="'/inv'" routerLinkActive="true">All Items</a>
+      <clr-vertical-nav-group (click)="getItemLevelCat(nav, i)" *ngFor="let nav of navLinks; let i = index">
+        {{nav.catName}}
+
+        <clr-vertical-nav-group-children c clrIfExpanded="getItemLevelCat(nav, i)" *ngFor="let itemCat of nav.catItems">
+          <clr-spinner *ngIf="navLoading">Loading</clr-spinner>
+          <a clrVerticalNavLink
+             [routerLink]="['/inv/cat', itemCat.catName]"
+             routerLinkActive="active">
+            {{itemCat.catName}}
+          </a>
+        </clr-vertical-nav-group-children>
+      </clr-vertical-nav-group>
+    </clr-vertical-nav>
+    <div class="content-area">
+      <router-outlet></router-outlet>
+    </div>
+  </div>
+</div>
