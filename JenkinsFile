@@ -13,7 +13,7 @@ pipeline {
                 git 'https://github.com/jschaeppi/cvs-inv-mgmt.git'
 
                 // Run Maven on a Unix agent.
-                sh "mvn -DskipTest clean package"
+                sh "mvn -DskipTests clean package"
             }
 
             post {
