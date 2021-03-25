@@ -1,0 +1,55 @@
+def imageBuild
+pipeline {
+    agent any
+
+    tools {
+        // Install the Maven version configured as "M3" and add it to the path.
+        maven "Maven"
+    }
+
+    stages {
+        stage('Build angular app') {
+                        steps {
+                            // Get some code from a GitHub repository
+                            git 'https://github.com/jschaeppi/cvs-inv-mgmt.git'
+
+                            sh 'cd frontend'
+                            sh 'npm install'
+                            sh 'npm run build'
+                        }
+                            post {
+                                success {
+                                    echo "Angular compiled succeeded"
+                                }
+
+                                failure {
+                                    echo "Angular build failed"
+                                }
+                            }
+                }
+
+                stage('Build docker image angular compilation') {
+                            steps {
+                                script {
+                                withCredentials([usernamePassword(credentialsId: 'docker-login', passwordVariable: 'PASS', usernameVariable: 'USER')]) {
+                                    def registry = "jschaeppi6609/inv-mgmt-frontend"
+                                    imageBuild = docker.build registry + ":$BUILD_NUMBER"
+                                    sh "docker login -u $USER -p $PASS"
+                                    sh "docker push $imageBuild.id"
+                                    }
+                                }
+                            }
+                            post {
+                                success {
+                                    echo "Docker image build $BUILD_NUMBER was built successfully"
+                                    sh "docker rmi $imageBuild.id"
+                                }
+
+                                failure {
+                                    echo "Docker image build $BUILD_NUMBER failed!"
+                                    sh "docker rmi $imageBuild.id"
+                                }
+                            }
+                        }
+    }
+}
