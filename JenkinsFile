@@ -1,6 +1,6 @@
 def imageBuild
 pipeline {
-    agent none
+    agent any
 
     tools {
         // Install the Maven version configured as "M3" and add it to the path.
@@ -35,11 +35,6 @@ pipeline {
         }
 
         stage('Build docker image from jar') {
-             agent {
-                docker {
-                    image 'docker:latest'
-                }
-            }
             steps {
                 script {
                 withCredentials([usernamePassword(credentialsId: 'docker-login', passwordVariable: 'PASS', usernameVariable: 'USER')]) {
