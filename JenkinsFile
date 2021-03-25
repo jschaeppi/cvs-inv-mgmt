@@ -3,7 +3,6 @@ pipeline {
      def registry = "jschaeppi6609/cvs-inv-mgmt"
      def imageBuild = ''
 
-     withCredentials([usernamePassword(credentialsId: 'mycompany-github-creds', passwordVariable: '$PASS', usernameVariable: '$USER')]) {
     tools {
         // Install the Maven version configured as "M3" and add it to the path.
         maven "Maven"
@@ -18,10 +17,11 @@ pipeline {
                 // Run Maven on a Unix agent.
                 sh "mvn -DskipTests clean package"
                 imageBuild = sh "docker build -t " + registry + ":$BUILD_NUMBER ."
-                sh "docker login -u $USER -p $PASS"
                 try {
-                sh "docker push " +imageBuild
-                echo "$BUILD_NUMBER of Image " + imageBuild + " was successfully pushed."
+                    withCredentials([usernamePassword(credentialsId: 'mycompany-github-creds', passwordVariable: '$PASS', usernameVariable: '$USER')]) {
+                    sh "docker push " +imageBuild
+                    echo "$BUILD_NUMBER of Image " + imageBuild + " was successfully pushed."
+                    }
                 } catch(ExceptionName ex) {
                 echo "Image push failed!" + ex
                 }
