@@ -21,7 +21,6 @@ pipeline {
           git 'https://github.com/jschaeppi/cvs-inv-mgmt.git'
 
             dir ("frontend") {
-               sh 'chown -R 968:967 "/.npm"'
                sh 'npm install'
                sh 'npm run build'
              }
