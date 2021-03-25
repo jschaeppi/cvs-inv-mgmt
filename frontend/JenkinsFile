@@ -9,26 +9,31 @@ pipeline {
 
     stages {
         stage('Build angular app') {
-                        steps {
-                            // Get some code from a GitHub repository
-                            git 'https://github.com/jschaeppi/cvs-inv-mgmt.git'
+          agent {
+            docker {
+              image 'node:14.16.0-alpine3.10'
+            }
+          }
+          steps {
+          // Get some code from a GitHub repository
+          git 'https://github.com/jschaeppi/cvs-inv-mgmt.git'
 
-                            dir ("frontend") {
-                              sh 'ls -l'
-                              sh 'npm install'
-                              sh 'npm run build'
-                            }
-                        }
-                            post {
-                                success {
-                                    echo "Angular compiled succeeded"
-                                }
+            dir ("frontend") {
+               sh 'ls -l'
+               sh 'npm install'
+               sh 'npm run build'
+             }
+           }
+         post {
+           success {
+              echo "Angular compiled succeeded"
+           }
 
-                                failure {
-                                    echo "Angular build failed"
-                                }
-                            }
-                }
+           failure {
+              echo "Angular build failed"
+            }
+          }
+        }
 
                 stage('Build docker image angular compilation') {
                             steps {
