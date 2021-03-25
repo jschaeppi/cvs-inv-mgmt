@@ -1,5 +1,6 @@
+def imageBuild
 pipeline {
-    agent any
+    agent { dockerfile true }
 
     tools {
         // Install the Maven version configured as "M3" and add it to the path.
@@ -33,7 +34,7 @@ pipeline {
                 script {
                 withCredentials([usernamePassword(credentialsId: 'docker-login', passwordVariable: 'PASS', usernameVariable: 'USER')]) {
                     def registry = "jschaeppi6609/cvs-inv-mgmt"
-                    def imageBuild = docker.build registry + ":$BUILD_NUMBER"
+                    imageBuild = docker.build registry + ":$BUILD_NUMBER"
                     docker.withRegistry('', credentialsId('docker-login')) {
                         imageBuild.push()
                         }
