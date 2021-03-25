@@ -9,29 +9,35 @@ pipeline {
     }
 
     stages {
-        stage('Build') {
+        stage('Build spring boot jar') {
             steps {
                 // Get some code from a GitHub repository
                 git 'https://github.com/jschaeppi/cvs-inv-mgmt.git'
 
                 // Run Maven on a Unix agent.
                 sh "mvn -DskipTests clean package"
-                imageBuild = sh "docker build -t " + registry + ":$BUILD_NUMBER ."
-                try {
-                    withCredentials([usernamePassword(credentialsId: 'mycompany-github-creds', passwordVariable: '$PASS', usernameVariable: '$USER')]) {
-                    sh "docker push " +imageBuild
-                    echo "$BUILD_NUMBER of Image " + imageBuild + " was successfully pushed."
-                    }
-                } catch(ExceptionName ex) {
-                echo "Image push failed!" + ex
-                }
             }
 
             post {
                 // If Maven was able to run the tests, even if some of the test
                 // failed, record the test results and archive the jar file.
                 success {
-                    echo "Build succeeded"
+                    echo "Jar file creation succeeded"
+                }
+
+                failure {
+                    echo "Jar file creation failed"
+                }
+            }
+        }
+
+        stage('Build docker image from jar') {
+            steps {
+                imageBuild = sh "docker build -t " + registry + ":$BUILD_NUMBER ."
+                withCredentials([usernamePassword(credentialsId: 'mycompany-github-creds', passwordVariable: '$PASS', usernameVariable: '$USER')]) {
+                sh "docker push " +imageBuild
+                echo "$BUILD_NUMBER of Image " + imageBuild + " was successfully pushed."
+                echo "Image push failed!" + ex
                 }
             }
         }
