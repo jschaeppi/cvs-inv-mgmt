@@ -1,7 +1,6 @@
 pipeline {
     agent any
-     def registry = "jschaeppi6609/cvs-inv-mgmt"
-     def imageBuild = ''
+     def imageBuild
 
     tools {
         // Install the Maven version configured as "M3" and add it to the path.
@@ -34,6 +33,7 @@ pipeline {
         stage('Build docker image from jar') {
             steps {
                 script {
+                def registry = "jschaeppi6609/cvs-inv-mgmt"
                 imageBuild = sh "docker build -t " + registry + ":$BUILD_NUMBER ."
                 withCredentials([usernamePassword(credentialsId: 'docker-login', passwordVariable: '$PASS', usernameVariable: '$USER')]) {
                     sh "docker push " +imageBuild
