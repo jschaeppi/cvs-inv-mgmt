@@ -16,17 +16,17 @@ pipeline {
 
                 // Run Maven on a Unix agent.
                 sh "mvn -DskipTests clean package"
-            }
 
-            post {
+                post {
                 // If Maven was able to run the tests, even if some of the test
                 // failed, record the test results and archive the jar file.
-                success {
-                    echo "Jar file creation succeeded"
-                }
+                    success {
+                        echo "Jar file creation succeeded"
+                    }
 
-                failure {
-                    echo "Jar file creation failed"
+                    failure {
+                        echo "Jar file creation failed"
+                    }
                 }
             }
         }
@@ -39,14 +39,15 @@ pipeline {
                 echo "$BUILD_NUMBER of Image " + imageBuild + " was successfully pushed."
                 echo "Image push failed!" + ex
                 }
-            }
+                post {
+                    success {
+                        echo "Docker image built successfully"
+                    }
 
-            success {
-                echo "Docker image built successfully"
-            }
-
-            failure {
-                echo "Docker image build failed!"
+                    failure {
+                        echo "Docker image build failed!"
+                    }
+                }
             }
         }
     }
