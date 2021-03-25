@@ -1,6 +1,6 @@
 def imageBuild
 pipeline {
-    agent { docker { image 'maven:latest' } }
+    agent none
 
     tools {
         // Install the Maven version configured as "M3" and add it to the path.
@@ -10,6 +10,12 @@ pipeline {
     stages {
         stage('Build spring boot jar') {
             steps {
+                agent {
+                    docker {
+                        image 'maven:3-alpine'
+                        label 'mavenAgent'
+                    }
+                }
                 // Get some code from a GitHub repository
                 git 'https://github.com/jschaeppi/cvs-inv-mgmt.git'
 
@@ -31,6 +37,12 @@ pipeline {
 
         stage('Build docker image from jar') {
             steps {
+                agent {
+                    docker {
+                        image 'docker:latest'
+                        label 'dockerAgent'
+                    }
+                }
                 script {
                 withCredentials([usernamePassword(credentialsId: 'docker-login', passwordVariable: 'PASS', usernameVariable: 'USER')]) {
                     def registry = "jschaeppi6609/cvs-inv-mgmt"
