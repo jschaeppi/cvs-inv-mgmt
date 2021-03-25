@@ -20,8 +20,8 @@ pipeline {
 
             dir ("frontend") {
                sh 'ls -l'
-               sh 'npm install'
-               sh 'npm run build'
+               sh 'sudo npm install'
+               sh 'sudo npm run build'
              }
            }
          post {
