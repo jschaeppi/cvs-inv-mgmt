@@ -32,6 +32,7 @@ pipeline {
 
                 stage('Build docker image angular compilation') {
                             steps {
+                              dir("frontend") {
                                 script {
                                 withCredentials([usernamePassword(credentialsId: 'docker-login', passwordVariable: 'PASS', usernameVariable: 'USER')]) {
                                     def registry = "jschaeppi6609/inv-mgmt-frontend"
@@ -39,6 +40,7 @@ pipeline {
                                     sh "docker login -u $USER -p $PASS"
                                     sh "docker push $imageBuild.id"
                                     }
+                                }
                                 }
                             }
                             post {
