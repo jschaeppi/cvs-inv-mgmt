@@ -13,10 +13,11 @@ pipeline {
                             // Get some code from a GitHub repository
                             git 'https://github.com/jschaeppi/cvs-inv-mgmt.git'
 
-                            sh 'cd ./frontend'
-                            sh 'ls -l'
-                            sh 'npm install'
-                            sh 'npm run build'
+                            dir ("frontend") {
+                              sh 'ls -l'
+                              sh 'npm install'
+                              sh 'npm run build'
+                            }
                         }
                             post {
                                 success {
