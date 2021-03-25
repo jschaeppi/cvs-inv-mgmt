@@ -38,7 +38,7 @@ pipeline {
               script {
                 withCredentials([usernamePassword(credentialsId: 'docker-login', passwordVariable: 'PASS', usernameVariable: 'USER')]) {
                   def registry = "jschaeppi6609/inv-mgmt-frontend"
-                  imageBuild = docker.build( registry + ":$BUILD_NUMBER", "-f ./frontend/Dockerfile .")
+                  imageBuild = docker.build( registry + ":$BUILD_NUMBER", "-f ./frontend/frontend/Dockerfile .")
                   sh "cd frontend && docker login -u $USER -p $PASS"
                   sh "cd frontend && docker push $imageBuild.id"
                 }
