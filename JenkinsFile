@@ -48,12 +48,12 @@ pipeline {
             post {
                 success {
                     echo "Docker image build $BUILD_NUMBER was built successfully"
-                    sh "docker rmi $imageBuild"
+                    sh "docker rmi $imageBuild.id"
                 }
 
                 failure {
                     echo "Docker image build $BUILD_NUMBER failed!"
-                    sh "docker rmi $imageBuild"
+                    sh "docker rmi $imageBuild.id"
                 }
             }
         }
