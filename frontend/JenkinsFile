@@ -11,7 +11,7 @@ pipeline {
         stage('Build angular app') {
           agent {
             docker {
-              image 'node:14.16.0-alpine3.10'
+              image 'node:14.16-buster'
             }
           }
           steps {
@@ -20,8 +20,8 @@ pipeline {
 
             dir ("frontend") {
                sh 'ls -l'
-               sh 'sudo npm install'
-               sh 'sudo npm run build'
+               sh 'npm install'
+               sh 'npm run build'
              }
            }
          post {
