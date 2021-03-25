@@ -22,8 +22,8 @@ pipeline {
                 try {
                 sh "docker push " +imageBuild
                 echo "$BUILD_NUMBER of Image " + imageBuild + " was successfully pushed."
-                } catch() {
-                echo "Image push failed!"
+                } catch(ExceptionName ex) {
+                echo "Image push failed!" + ex
                 }
             }
 
