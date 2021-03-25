@@ -39,9 +39,9 @@ pipeline {
                 script {
                 withCredentials([usernamePassword(credentialsId: 'docker-login', passwordVariable: 'PASS', usernameVariable: 'USER')]) {
                     def registry = "jschaeppi6609/cvs-inv-mgmt"
-                    imageBuild = "sudo" + docker.build registry + ":$BUILD_NUMBER"
-                    sh "sudo docker login -u $USER -p $PASS"
-                    sh "sudo docker push $imageBuild.id"
+                    imageBuild = docker.build registry + ":$BUILD_NUMBER"
+                    sh "docker login -u $USER -p $PASS"
+                    sh "docker push $imageBuild.id"
                     }
                 }
             }
