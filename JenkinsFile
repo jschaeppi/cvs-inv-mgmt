@@ -8,13 +8,13 @@ pipeline {
     }
 
     stages {
-        agent {
-                docker {
-                image 'maven:3-alpine'
-                label 'mavenAgent'
-             }
-        }
         stage('Build spring boot jar') {
+            agent {
+                    docker {
+                    image 'maven:3-alpine'
+                    label 'mavenAgent'
+                 }
+            }
             steps {
                 // Get some code from a GitHub repository
                 git 'https://github.com/jschaeppi/cvs-inv-mgmt.git'
@@ -39,7 +39,7 @@ pipeline {
              agent {
                 docker {
                     image 'docker:latest'
-                        label 'dockerAgent'
+                    label 'dockerAgent'
                 }
             }
             steps {
