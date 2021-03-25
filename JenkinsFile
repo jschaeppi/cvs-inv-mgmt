@@ -38,15 +38,16 @@ pipeline {
                     sh "docker push " + registry + ":$BUILD_NUMBER"
                 }
                 }
-                    post {
-                        success {
-                            echo "Docker image build $BUILD_NUMBER was built successfully"
-                        }
+            }
+            post {
+                success {
+                    echo "Docker image build $BUILD_NUMBER was built successfully"
+                }
 
-                        failure {
-                            echo "Docker image build $BUILD_NUMBER failed!"
-                        }
-                    }
+                failure {
+                    echo "Docker image build $BUILD_NUMBER failed!"
+                }
+            }
             }
         }
     }
