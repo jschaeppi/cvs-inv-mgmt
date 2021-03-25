@@ -33,19 +33,21 @@ pipeline {
 
         stage('Build docker image from jar') {
             steps {
+                script {
                 imageBuild = sh "docker build -t " + registry + ":$BUILD_NUMBER ."
                 withCredentials([usernamePassword(credentialsId: 'docker-login', passwordVariable: '$PASS', usernameVariable: '$USER')]) {
-                sh "docker push " +imageBuild
-                echo "$BUILD_NUMBER of Image " + imageBuild + " was successfully pushed."
-                echo "Image push failed!" + ex
+                    sh "docker push " +imageBuild
+                    echo "$BUILD_NUMBER of Image " + imageBuild + " was successfully pushed."
+                    echo "Image push failed!" + ex
                 }
-                post {
-                    success {
-                        echo "Docker image built successfully"
-                    }
+                    post {
+                        success {
+                            echo "Docker image built successfully"
+                        }
 
-                    failure {
-                        echo "Docker image build failed!"
+                        failure {
+                            echo "Docker image build failed!"
+                        }
                     }
                 }
             }
