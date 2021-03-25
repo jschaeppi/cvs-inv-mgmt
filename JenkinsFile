@@ -14,7 +14,7 @@ pipeline {
 
                 // Run Maven on a Unix agent.
                 sh "mvn -DskipTests clean package"
-                sh "docker build -t jschaeppi6609/cvs-inv-mgmt:2.0"
+                sh "docker build -t jschaeppi6609/cvs-inv-mgmt:2.0 ."
             }
 
             post {
