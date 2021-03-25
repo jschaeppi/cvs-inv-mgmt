@@ -51,7 +51,6 @@ pipeline {
                     sh "docker rmi $imageBuild.id"
                 }
             }
-            }
         }
     }
 }
