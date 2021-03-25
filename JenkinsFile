@@ -1,6 +1,9 @@
 pipeline {
     agent any
+     def registry = "jschaeppi6609/cvs-inv-mgmt"
+     def imageBuild = ''
 
+     withCredentials([usernamePassword(credentialsId: 'mycompany-github-creds', passwordVariable: '$PASS', usernameVariable: '$USER')]) {
     tools {
         // Install the Maven version configured as "M3" and add it to the path.
         maven "Maven"
@@ -14,8 +17,14 @@ pipeline {
 
                 // Run Maven on a Unix agent.
                 sh "mvn -DskipTests clean package"
-                sh "docker build -t jschaeppi6609/cvs-inv-mgmt:2.0 ."
-                sh "docker push jschaeppi6609/cvs-inv-mgmt:2.0"
+                imageBuild = sh "docker build -t " + registry + ":$BUILD_NUMBER ."
+                sh "docker login -u $USER -p $PASS"
+                try {
+                sh "docker push " +imageBuild
+                echo "$BUILD_NUMBER of Image " + imageBuild + " was successfully pushed."
+                } catch() {
+                echo "Image push failed!"
+                }
             }
 
             post {
