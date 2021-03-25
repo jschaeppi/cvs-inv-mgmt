@@ -36,17 +36,15 @@ pipeline {
                 withCredentials([usernamePassword(credentialsId: 'docker-login', passwordVariable: 'PASS', usernameVariable: 'USER')]) {
                     sh "docker login -u $USER -p $PASS"
                     sh "docker push " + registry + ":$BUILD_NUMBER"
-                    echo "$BUILD_NUMBER of Image jschaeppi6609/cvs-inv-mgmt:$BUILD_NUMBER was successfully pushed."
-                    echo "Image push failed!" + ex
                 }
                 }
                     post {
                         success {
-                            echo "Docker image built successfully"
+                            echo "Docker image build $BUILD_NUMBER was built successfully"
                         }
 
                         failure {
-                            echo "Docker image build failed!"
+                            echo "Docker image build $BUILD_NUMBER failed!"
                         }
                     }
             }
