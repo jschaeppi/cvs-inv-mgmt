@@ -8,14 +8,14 @@ pipeline {
     }
 
     stages {
+        agent {
+                docker {
+                image 'maven:3-alpine'
+                label 'mavenAgent'
+             }
+        }
         stage('Build spring boot jar') {
             steps {
-                agent {
-                    docker {
-                        image 'maven:3-alpine'
-                        label 'mavenAgent'
-                    }
-                }
                 // Get some code from a GitHub repository
                 git 'https://github.com/jschaeppi/cvs-inv-mgmt.git'
 
@@ -36,13 +36,13 @@ pipeline {
         }
 
         stage('Build docker image from jar') {
-            steps {
-                agent {
-                    docker {
-                        image 'docker:latest'
+             agent {
+                docker {
+                    image 'docker:latest'
                         label 'dockerAgent'
-                    }
                 }
+            }
+            steps {
                 script {
                 withCredentials([usernamePassword(credentialsId: 'docker-login', passwordVariable: 'PASS', usernameVariable: 'USER')]) {
                     def registry = "jschaeppi6609/cvs-inv-mgmt"
