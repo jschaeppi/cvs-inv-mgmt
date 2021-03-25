@@ -34,7 +34,7 @@ pipeline {
                 withCredentials([usernamePassword(credentialsId: 'docker-login', passwordVariable: 'PASS', usernameVariable: 'USER')]) {
                     def registry = "jschaeppi6609/cvs-inv-mgmt"
                     def imageBuild = docker.build registry + ":$BUILD_NUMBER"
-                    docker.withRegistry('', credentialsId('docker-login') {
+                    docker.withRegistry('', credentialsId('docker-login')) {
                         imageBuild.push()
                         }
                     }
