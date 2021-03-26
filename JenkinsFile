@@ -38,7 +38,7 @@ pipeline {
             steps {
                 script {
                 withCredentials([usernamePassword(credentialsId: 'docker-login', passwordVariable: 'PASS', usernameVariable: 'USER')]) {
-                    sh 'cp -r ../"Cvs\ Inventory\ Mgmt@2/target" .'
+                    sh 'cp -r ../"Cvs Inventory Mgmt@2/target" .'
                     def registry = "jschaeppi6609/cvs-inv-mgmt"
                     imageBuild = docker.build registry + ":$BUILD_NUMBER"
                     sh "docker login -u $USER -p $PASS"
