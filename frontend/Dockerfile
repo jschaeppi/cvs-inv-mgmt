@@ -7,10 +7,11 @@ RUN ls -l /app
 
 FROM nginx:latest
 WORKDIR /build
-COPY --from=build /app /build
+COPY --from=build /app/dist /build
+COPY --from=build /app/nginx.conf /build
 RUN ls -l /build
 COPY nginx.conf /etc/nginx/nginx.conf
 COPY dist/frontend /usr/share/nginx/html
 RUN chgrp -R root /var/cache/nginx /var/run /var/log/nginx && \
     chmod -R 770 /var/cache/nginx /var/run /var/log/nginx
-EXPOSE 80
+EXPOSE 81
