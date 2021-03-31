@@ -1,6 +1,16 @@
+FROM node:14.16.0-alpine3.10 as build
+WORKDIR /app
+ADD . /app
+RUN npm install
+ADD nginx.conf .
+RUN ls -l /app
+
 FROM nginx:latest
-RUN chgrp -R 0 nginx.conf && dist/frontend
-RUN chmod -R g+rwX nginx.conf && dist/frontend
-ADD nginx.conf /etc/nginx/nginx.conf
-ADD dist/frontend /usr/share/nginx/html
+WORKDIR /build
+COPY --from=build /app /build
+RUN ls -l /build
+RUN chown root /build/nginx.conf
+RUN chmod -R g+rwX /build/nginx.conf
+COPY nginx.conf /etc/nginx/nginx.conf
+COPY dist/frontend /usr/share/nginx/html
 EXPOSE 80
